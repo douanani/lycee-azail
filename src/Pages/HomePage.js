@@ -1,7 +1,65 @@
 // pages/HomePage.js
+import { motion } from "framer-motion";
 import lyceeImage from "../images/azail.jpg";
 import { SCHOOL_NAME, SCHOOL_YEAR, STATS } from "../Data/constants";
 import { BI } from "../Utils/icons";
+
+// Animation variants
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" }
+  }
+};
+
+const fadeLeft = {
+  hidden: { opacity: 0, x: -50 },
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    transition: { duration: 0.6, ease: "easeOut" }
+  }
+};
+
+const fadeRight = {
+  hidden: { opacity: 0, x: 50 },
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    transition: { duration: 0.6, ease: "easeOut" }
+  }
+};
+
+const flipLeft = {
+  hidden: { opacity: 0, rotateY: -90 },
+  visible: { 
+    opacity: 1, 
+    rotateY: 0,
+    transition: { duration: 0.5, ease: "easeOut" }
+  }
+};
+
+const zoomIn = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: { 
+    opacity: 1, 
+    scale: 1,
+    transition: { duration: 0.5, ease: "easeOut" }
+  }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
 
 export default function HomePage() {
   return (
@@ -47,34 +105,41 @@ export default function HomePage() {
         {/* Content */}
         <div className="container position-relative" style={{ zIndex: 2 }}>
           <div className="row justify-content-center text-center">
-            <div className="col-lg-8" data-aos="fade-up">
-              <span className="badge bg-white bg-opacity-25 text-white mb-4 px-4 py-3 rounded-pill d-inline-flex align-items-center gap-2">
-                <BI icon="bi-mortarboard-fill" marginEnd="me-0" />
-                <span>السنة الدراسية {SCHOOL_YEAR}</span>
-              </span>
-              <h1 className="display-3 fw-bold text-white mb-4">
-                {SCHOOL_NAME}
-              </h1>
-              <p className="lead text-info mb-5 fs-4">
-                نبني أجيالاً بالعلم والقيم
-              </p>
-              <div className="d-flex gap-3 justify-content-center flex-wrap">
-                <button
-                  className="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg d-inline-flex align-items-center gap-2"
-                  onClick={() =>
-                    document
-                      .getElementById("about")
-                      ?.scrollIntoView({ behavior: "smooth" })
-                  }
-                >
-                  <span>اكتشف المؤسسة</span>
-                  <BI icon="bi-arrow-left" marginEnd="me-0" />
-                </button>
-                <button className="btn btn-outline-light btn-lg px-5 py-3 rounded-pill d-inline-flex align-items-center gap-2">
-                  <span>تحميل الدروس</span>
-                  <BI icon="bi-download" marginEnd="me-0" />
-                </button>
-              </div>
+            <div className="col-lg-8">
+              <motion.div
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+              >
+                <span className="badge bg-white bg-opacity-25 text-white mb-4 px-4 py-3 rounded-pill d-inline-flex align-items-center gap-2">
+                  <BI icon="bi-mortarboard-fill" marginEnd="me-0" />
+                  <span>السنة الدراسية {SCHOOL_YEAR}</span>
+                </span>
+                <h1 className="display-3 fw-bold text-white mb-4">
+                  {SCHOOL_NAME}
+                </h1>
+                <p className="lead text-info mb-5 fs-4">
+                  نبني أجيالاً بالعلم والقيم
+                </p>
+                <div className="d-flex gap-3 justify-content-center flex-wrap">
+                  <button
+                    className="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg d-inline-flex align-items-center gap-2"
+                    onClick={() =>
+                      document
+                        .getElementById("about")
+                        ?.scrollIntoView({ behavior: "smooth" })
+                    }
+                  >
+                    <span>اكتشف المؤسسة</span>
+                    <BI icon="bi-arrow-left" marginEnd="me-0" />
+                  </button>
+                  <button className="btn btn-outline-light btn-lg px-5 py-3 rounded-pill d-inline-flex align-items-center gap-2">
+                    <span>تحميل الدروس</span>
+                    <BI icon="bi-download" marginEnd="me-0" />
+                  </button>
+                </div>
+              </motion.div>
             </div>
           </div>
         </div>
@@ -85,24 +150,27 @@ export default function HomePage() {
         <div className="container">
           <div className="row g-0">
             {STATS.map((stat, i) => (
-              <div
-                className="col-6 col-md-3"
-                key={i}
-                data-aos="flip-left"
-                data-aos-delay={i * 100}
-              >
-                <div className="text-center p-4 p-md-5 border-start border-white border-opacity-25">
-                  <BI
-                    icon={stat.icon}
-                    className="display-4 text-white mb-3"
-                    style={{ opacity: 0.9, fontSize: "3rem" }}
-                    marginEnd="me-0"
-                  />
-                  <div className="display-5 fw-bold text-white mb-2">
-                    {stat.value}
+              <div className="col-6 col-md-3" key={i}>
+                <motion.div
+                  variants={flipLeft}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ delay: i * 0.1 }}
+                >
+                  <div className="text-center p-4 p-md-5 border-start border-white border-opacity-25">
+                    <BI
+                      icon={stat.icon}
+                      className="display-4 text-white mb-3"
+                      style={{ opacity: 0.9, fontSize: "3rem" }}
+                      marginEnd="me-0"
+                    />
+                    <div className="display-5 fw-bold text-white mb-2">
+                      {stat.value}
+                    </div>
+                    <div className="text-white-50">{stat.label}</div>
                   </div>
-                  <div className="text-white-50">{stat.label}</div>
-                </div>
+                </motion.div>
               </div>
             ))}
           </div>
@@ -113,61 +181,76 @@ export default function HomePage() {
       <section id="about" className="py-5">
         <div className="container">
           <div className="row align-items-center g-5">
-            <div className="col-lg-6" data-aos="fade-left">
-              <span className="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 d-inline-flex align-items-center gap-2">
-                <BI icon="bi-building" marginEnd="me-0" />
-                <span>من نحن</span>
-              </span>
-              <h2 className="display-6 fw-bold mb-4">تعريف بالمؤسسة</h2>
-              <p className="text-secondary mb-3 lh-base">
-                ثثانوية حاج بن جعفر هي مؤسسة تربوية حديثة تم إنشاؤها لخدمة تلاميذ المنطقة وتوفير ظروف تعليمية أفضل لهم. سُمّيت هذه الثانوية تكريمًا لروح الشهيد حاج بن جعفر، الذي يُعد أول شهيد في المنطقة خلال ثورة التحرير الجزائرية، تقديرًا لتضحياته في سبيل الوطن.
-تقع الثانوية في بلدية العزايل التابعة لدائرة بني سنوس، وقد تم افتتاحها سنة 2019، لتكون أول ثانوية في المنطقة وثاني ثانوية على مستوى الدائرة. ساهم افتتاحها في تخفيف معاناة التلاميذ الذين كانوا يضطرون للتنقل لمسافة بعيدة لمواصلة دراستهم.
-وتلعب الثانوية اليوم دورًا مهمًا في دعم المسار التعليمي للشباب، وتعزيز التحصيل العلمي في المنطقة، مع الحفاظ على قيم الوطنية والاعتزاز بتاريخ الشهداء.
-              </p>
-              <p className="text-secondary mb-4 lh-base">
-                تضم الثانوية ثلاثة مستويات دراسية: السنة الأولى، الثانية، والثالثة ثانوي، في شعبتي علوم تجريبية و آداب و فلسفة
-              </p>
-              <div className="row g-3">
-                {[
-                  { text: "مخابر علمية مجهزة", icon: "bi-ubuntu" },
-                  {
-                    text: "مكتبة", icon: "bi-journal-bookmark-fill",
-                  },
-                  { text: "قاعة إعلام آلي", icon: "bi-laptop" },
-                  { text: "ملعب وقاعة رياضية", icon: "bi-dribbble" },
-                ].map((feature, i) => (
-                  <div
-                    className="col-sm-6"
-                    key={i}
-                    data-aos="fade-up"
-                    data-aos-delay={i * 100}
-                  >
-                    <div className="d-flex align-items-center gap-3">
-                      <div className="bg-success bg-opacity-10 p-3 rounded-3">
-                        <BI
-                          icon={feature.icon}
-                          className="text-success fs-4"
-                          marginEnd="me-0"
-                        />
-                      </div>
-                      <span className="fw-medium">{feature.text}</span>
+            <div className="col-lg-6">
+              <motion.div
+                variants={fadeLeft}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+              >
+                <span className="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 d-inline-flex align-items-center gap-2">
+                  <BI icon="bi-building" marginEnd="me-0" />
+                  <span>من نحن</span>
+                </span>
+                <h2 className="display-6 fw-bold mb-4">تعريف بالمؤسسة</h2>
+                <p className="text-secondary mb-3 lh-base">
+                  ثانوية حاج بن جعفر هي مؤسسة تربوية حديثة تم إنشاؤها لخدمة تلاميذ المنطقة وتوفير ظروف تعليمية أفضل لهم. سُمّيت هذه الثانوية تكريمًا لروح الشهيد حاج بن جعفر، الذي يُعد أول شهيد في المنطقة خلال ثورة التحرير الجزائرية، تقديرًا لتضحياته في سبيل الوطن.
+                  تقع الثانوية في بلدية العزايل التابعة لدائرة بني سنوس، وقد تم افتتاحها سنة 2019، لتكون أول ثانوية في المنطقة وثاني ثانوية على مستوى الدائرة. ساهم افتتاحها في تخفيف معاناة التلاميذ الذين كانوا يضطرون للتنقل لمسافة بعيدة لمواصلة دراستهم.
+                  وتلعب الثانوية اليوم دورًا مهمًا في دعم المسار التعليمي للشباب، وتعزيز التحصيل العلمي في المنطقة، مع الحفاظ على قيم الوطنية والاعتزاز بتاريخ الشهداء.
+                </p>
+                <p className="text-secondary mb-4 lh-base">
+                  تضم الثانوية ثلاثة مستويات دراسية: السنة الأولى، الثانية، والثالثة ثانوي، في شعبتي علوم تجريبية وآداب وفلسفة
+                </p>
+                <motion.div 
+                  className="row g-3"
+                  variants={staggerContainer}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.3 }}
+                >
+                  {[
+                    { text: "مخابر علمية مجهزة", icon: "bi-ubuntu" },
+                    { text: "مكتبة", icon: "bi-journal-bookmark-fill" },
+                    { text: "قاعة إعلام آلي", icon: "bi-laptop" },
+                    { text: "ملعب وقاعة رياضية", icon: "bi-dribbble" },
+                  ].map((feature, i) => (
+                    <div className="col-sm-6" key={i}>
+                      <motion.div variants={fadeUp}>
+                        <div className="d-flex align-items-center gap-3">
+                          <div className="bg-success bg-opacity-10 p-3 rounded-3">
+                            <BI
+                              icon={feature.icon}
+                              className="text-success fs-4"
+                              marginEnd="me-0"
+                            />
+                          </div>
+                          <span className="fw-medium">{feature.text}</span>
+                        </div>
+                      </motion.div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </motion.div>
+              </motion.div>
             </div>
-            <div className="col-lg-6" data-aos="fade-right">
-             <div
-  className="rounded-4 overflow-hidden border"
-  style={{ minHeight: "350px" }}
->
-  <img
-    src={lyceeImage} // ولا أي رابط صورة عندك
-    alt="ثانوية حاج بن جعفر"
-    className="w-100 h-100"
-    style={{ objectFit: "cover", minHeight: "350px" }}
-  />
-</div>
+            <div className="col-lg-6">
+              <motion.div
+                variants={fadeRight}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+              >
+                <div
+                  className="rounded-4 overflow-hidden border"
+                  style={{ minHeight: "350px" }}
+                >
+                  <img
+                    src={lyceeImage}
+                    alt="ثانوية حاج بن جعفر"
+                    className="w-100 h-100"
+                    style={{ objectFit: "cover", minHeight: "350px" }}
+                  />
+                </div>
+              </motion.div>
             </div>
           </div>
         </div>
@@ -176,14 +259,27 @@ export default function HomePage() {
       {/* Quick Links */}
       <section className="py-5 bg-light">
         <div className="container">
-          <div className="text-center mb-5" data-aos="fade-up">
-            <span className="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 d-inline-flex align-items-center gap-2">
-              <BI icon="bi-rocket-takeoff-fill" marginEnd="me-0" />
-              <span>روابط سريعة</span>
-            </span>
-            <h2 className="display-6 fw-bold">خدمات الموقع</h2>
+          <div className="text-center mb-5">
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+            >
+              <span className="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 d-inline-flex align-items-center gap-2">
+                <BI icon="bi-rocket-takeoff-fill" marginEnd="me-0" />
+                <span>روابط سريعة</span>
+              </span>
+              <h2 className="display-6 fw-bold">خدمات الموقع</h2>
+            </motion.div>
           </div>
-          <div className="row g-4">
+          <motion.div 
+            className="row g-4"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+          >
             {[
               {
                 icon: "bi-file-pdf-fill",
@@ -210,31 +306,31 @@ export default function HomePage() {
                 color: "danger",
               },
             ].map((card, i) => (
-              <div
-                className="col-sm-6 col-lg-3"
-                key={i}
-                data-aos="zoom-in"
-                data-aos-delay={i * 100}
-              >
-                <div className="card h-100 border-0 shadow-sm hover-shadow-lg transition">
-                  <div className="card-body text-center p-4">
-                    <div
-                      className={`bg-${card.color} bg-opacity-10 p-4 rounded-4 d-inline-block mb-4`}
-                    >
-                      <BI
-                        icon={card.icon}
-                        className={`display-6 text-${card.color}`}
-                        style={{ fontSize: "2.5rem" }}
-                        marginEnd="me-0"
-                      />
+              <div className="col-sm-6 col-lg-3" key={i}>
+                <motion.div
+                  variants={zoomIn}
+                  transition={{ delay: i * 0.1 }}
+                >
+                  <div className="card h-100 border-0 shadow-sm hover-shadow-lg transition">
+                    <div className="card-body text-center p-4">
+                      <div
+                        className={`bg-${card.color} bg-opacity-10 p-4 rounded-4 d-inline-block mb-4`}
+                      >
+                        <BI
+                          icon={card.icon}
+                          className={`display-6 text-${card.color}`}
+                          style={{ fontSize: "2.5rem" }}
+                          marginEnd="me-0"
+                        />
+                      </div>
+                      <h3 className="h5 fw-bold mb-3">{card.title}</h3>
+                      <p className="text-secondary small mb-0">{card.desc}</p>
                     </div>
-                    <h3 className="h5 fw-bold mb-3">{card.title}</h3>
-                    <p className="text-secondary small mb-0">{card.desc}</p>
                   </div>
-                </div>
+                </motion.div>
               </div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
     </>

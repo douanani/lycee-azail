@@ -7,7 +7,6 @@ export default function PageHeader({ icon, title, sub }) {
       className="py-5 text-white"
       style={{
         background: "linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)",
-        marginTop: "76px",
       }}
     >
       <div className="container">

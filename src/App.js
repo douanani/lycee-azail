@@ -1,7 +1,6 @@
 // App.js
 import { useState, useEffect } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
+import { motion, AnimatePresence } from "framer-motion";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 // Import Components
@@ -28,17 +27,37 @@ bootstrapIconsLink.href =
   "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css";
 document.head.appendChild(bootstrapIconsLink);
 
+// Page transition variants
+const pageVariants = {
+  initial: {
+    opacity: 0,
+    y: 20,
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+  exit: {
+    opacity: 0,
+    y: -20,
+    transition: {
+      duration: 0.3,
+      ease: "easeIn",
+    },
+  },
+};
+
 export default function App() {
   const [page, setPage] = useState("home");
 
+  // Optional: Add scroll reveal animation for elements
   useEffect(() => {
-    AOS.init({
-      duration: 800,
-      once: true,
-      offset: 100,
-      easing: "ease-out-cubic",
-      disable: false,
-    });
+    // You can add intersection observer logic here if needed
+    // Framer Motion works with whileInView prop on components
   }, []);
 
   const renderPage = () => {
@@ -65,7 +84,19 @@ export default function App() {
         rel="stylesheet"
       />
       <Navbar page={page} setPage={setPage} />
-      <main className="flex-grow-1">{renderPage()}</main>
+      <main className="flex-grow-1">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={page}
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+          >
+            {renderPage()}
+          </motion.div>
+        </AnimatePresence>
+      </main>
       <Footer setPage={setPage} />
     </div>
   );

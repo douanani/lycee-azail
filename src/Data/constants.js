@@ -1,5 +1,5 @@
 // data/constants.js
-export const SCHOOL_NAME = "ثانوية حاج بن جعفر العزايل";
+export const SCHOOL_NAME = "ثانوية حاج بن جعفر ";
 export const SCHOOL_WILAYA = "ولاية وهران";
 export const SCHOOL_YEAR = "2025 / 2026";
 
@@ -20,7 +20,7 @@ export const STATS = [
 
 export const LESSONS = {
   "السنة أولى جذع مشترك علوم وتكنولوجيا": {
-    "لغة عربية": [{ name: "مقدمة في الأدب", file: "#", size: "1.2 MB" }],
+    "لغة عربية": [{ name: "مقدمة في الأدب", file: "#", size: "1.2 MB" },{ name: "مقدمة  الأدب", file: "#", size: "1.2 MB" }],
     "رياضيات": [{ name: "الأعداد والحساب", file: "#", size: "1.5 MB" }],
     "فيزياء": [{ name: "بنية المادة", file: "#", size: "2.0 MB" }],
     "علوم طبيعية": [{ name: "الخلية وحدة بنائية", file: "#", size: "1.8 MB" }],

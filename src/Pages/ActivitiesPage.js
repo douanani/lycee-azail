@@ -22,8 +22,28 @@ export default function ActivitiesPage() {
       />
 
       <div className="container py-5">
-        {/* Filter */}
-        <div
+        {/* Development Notice */}
+        <div className="row justify-content-center">
+          <div className="col-md-8 col-lg-6">
+            <div 
+              className="text-center py-5 px-4 bg-light rounded-4 shadow-sm"
+              data-aos="fade-up"
+            >
+              <BI 
+                icon="bi-braces" 
+                className="display-1 text-warning mb-4" 
+                style={{ fontSize: "4rem" }}
+                marginEnd="me-0" 
+              />
+              <h2 className="h3 fw-bold mb-3">⚠️ الصفحة قيد التطوير</h2>
+              <p className="text-secondary mb-0">
+                نحن نعمل على تحسين هذه الصفحة، سيتم إضافة المحتوى قريباً إن شاء الله
+              </p>
+            </div>
+          </div>
+        </div>
+        {/* Filter
+          <div
           className="d-flex align-items-center justify-content-center gap-2 flex-wrap mb-5"
           data-aos="fade-up"
         >
@@ -91,6 +111,8 @@ export default function ActivitiesPage() {
             </div>
           ))}
         </div>
+         */}
+      
       </div>
     </>
   );
