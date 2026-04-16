@@ -1,7 +1,6 @@
 // pages/ActivitiesPage.js
-import { useState } from "react";
 import PageHeader from "../components/PageHeader";
-import { ACTIVITIES } from "../Data/constants";
+//import { ACTIVITIES } from "../Data/constants";
 import { BI } from "../Utils/icons";
 
 export default function ActivitiesPage() {
