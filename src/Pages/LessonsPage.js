@@ -1,24 +1,13 @@
 // pages/LessonsPage.js
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import PageHeader from "../components/PageHeader";
 import { LESSONS } from "../Data/constants";
-import { BI } from "../Utils/icons";
 
-// Animation variants
+// Enhanced animation variants
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0 },
-};
-
-const fadeRight = {
-  hidden: { opacity: 0, x: -30 },
-  visible: { opacity: 1, x: 0 },
-};
-
-const fadeLeft = {
-  hidden: { opacity: 0, x: 30 },
-  visible: { opacity: 1, x: 0 },
 };
 
 const staggerContainer = {
@@ -26,14 +15,22 @@ const staggerContainer = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.08,
     },
   },
 };
 
 const staggerItem = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 100,
+      damping: 12
+    }
+  },
 };
 
 export default function LessonsPage() {
@@ -42,6 +39,7 @@ export default function LessonsPage() {
     Object.keys(LESSONS[Object.keys(LESSONS)[0]])[0],
   );
   const [search, setSearch] = useState("");
+  const [viewMode, setViewMode] = useState("list"); // 'list' or 'grid'
 
   const handleLevel = (lvl) => {
     setSelectedLevel(lvl);
@@ -52,6 +50,38 @@ export default function LessonsPage() {
   const files = (subjects[selectedSubject] || []).filter(
     (f) => f.name.toLowerCase().includes(search.toLowerCase()) || search === "",
   );
+
+  // Get subject color based on name
+  const getSubjectColor = (subject) => {
+    const colors = {
+      "الرياضيات": "primary",
+      "الفيزياء": "info",
+      "العلوم": "success",
+      "اللغة العربية": "warning",
+      "اللغة الفرنسية": "danger",
+      "اللغة الإنجليزية": "info",
+      "التاريخ والجغرافيا": "secondary",
+      "التربية الإسلامية": "success",
+      "التربية المدنية": "warning",
+    };
+    return colors[subject] || "primary";
+  };
+
+  // Get subject icon based on name
+  const getSubjectIcon = (subject) => {
+    const icons = {
+      "الرياضيات": "bi-calculator-fill",
+      "الفيزياء": "bi-magnet-fill",
+      "العلوم": "bi-flask-fill",
+      "اللغة العربية": "bi-book-fill",
+      "اللغة الفرنسية": "bi-chat-fill",
+      "اللغة الإنجليزية": "bi-chat-dots-fill",
+      "التاريخ والجغرافيا": "bi-globe-americas",
+      "التربية الإسلامية": "bi-star-fill",
+      "التربية المدنية": "bi-people-fill",
+    };
+    return icons[subject] || "bi-journal-bookmark-fill";
+  };
 
   return (
     <motion.div
@@ -66,205 +96,720 @@ export default function LessonsPage() {
         sub="جميع الدروس مرتبة حسب المستوى والمادة — قابلة للتحميل"
       />
 
-      <div className="container py-5">
-        {/* Search */}
+      <div className="container py-4">
+        {/* Search Bar with Filter */}
         <motion.div
-          className="row mb-4"
+          className="row g-3 mb-4"
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <div className="col-md-6 mx-auto">
-            <div className="input-group shadow-sm">
-              <span className="input-group-text bg-white border-end-0">
-                <BI
-                  icon="bi-search"
-                  className="text-secondary"
-                  marginEnd="me-0"
+          <div className="col-md-8 mx-auto">
+            <div className="search-wrapper position-relative">
+              <div className="input-group shadow-lg rounded-pill overflow-hidden">
+                <span className="input-group-text bg-white border-0 ps-4">
+                  <i className="bi bi-search text-primary"></i>
+                </span>
+                <input
+                  type="text"
+                  className="form-control border-0 py-3 ps-2"
+                  placeholder="ابحث عن درس..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
                 />
-              </span>
-              <input
-                type="text"
-                className="form-control border-start-0 py-3"
-                placeholder="ابحث عن درس..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
+                {search && (
+                  <motion.button
+                    className="btn btn-link text-secondary border-0 pe-4"
+                    onClick={() => setSearch("")}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                    whileHover={{ scale: 1.1 }}
+                  >
+                    <i className="bi bi-x-lg"></i>
+                  </motion.button>
+                )}
+              </div>
             </div>
           </div>
         </motion.div>
 
-        {/* Level Tabs */}
+        {/* Level Tabs - Enhanced Design */}
         <motion.div
-          className="d-flex gap-2 flex-wrap justify-content-center mb-4"
+          className="level-tabs-wrapper mb-5"
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          {Object.keys(LESSONS).map((lvl, index) => (
-            <motion.button
-              key={lvl}
-              onClick={() => handleLevel(lvl)}
-              className={`btn d-flex align-items-center gap-2 ${selectedLevel === lvl ? "btn-primary" : "btn-outline-secondary"}`}
-              variants={fadeRight}
-              custom={index}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <BI icon="bi-mortarboard-fill" marginEnd="me-0" />
-              <span>{lvl}</span>
-            </motion.button>
-          ))}
+          <div className="d-flex gap-2 flex-wrap justify-content-center">
+            {Object.keys(LESSONS).map((lvl, index) => (
+              <motion.button
+                key={lvl}
+                onClick={() => handleLevel(lvl)}
+                className={`level-tab ${selectedLevel === lvl ? "active" : ""}`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                whileHover={{ y: -3 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <i className="bi bi-mortarboard-fill"></i>
+                <span>{lvl}</span>
+                {selectedLevel === lvl && (
+                  <motion.div
+                    className="active-indicator"
+                    layoutId="activeTab"
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  />
+                )}
+              </motion.button>
+            ))}
+          </div>
         </motion.div>
 
         <div className="row g-4">
-          {/* Subject sidebar */}
+          {/* Subject Sidebar - Enhanced */}
           <motion.div
-            className="col-md-3"
-            variants={fadeLeft}
+            className="col-lg-3"
+            variants={fadeUp}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <div className="card border-0 shadow-sm">
-              <div className="card-header bg-white border-0 pt-4">
-                <h6 className="fw-bold text-secondary mb-0 d-flex align-items-center gap-2">
-                  <BI icon="bi-journal-bookmark-fill" marginEnd="me-0" />
-                  <span>المواد</span>
-                </h6>
+            <div className="subjects-sidebar">
+              <div className="sidebar-header">
+                <i className="bi bi-grid-3x3-gap-fill"></i>
+                <h6>المواد الدراسية</h6>
+                <span className="subject-count">{Object.keys(subjects).length}</span>
               </div>
-              <div className="list-group list-group-flush">
-                {Object.keys(subjects).map((subj, index) => (
-                  <motion.button
-                    key={subj}
-                    onClick={() => setSelectedSubject(subj)}
-                    className={`list-group-item list-group-item-action border-0 py-3 text-end ${selectedSubject === subj ? "active bg-primary text-white" : ""}`}
-                    variants={fadeLeft}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: index * 0.03 }}
-                    whileHover={{ x: -5 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    {subj}
-                  </motion.button>
-                ))}
+              
+              <div className="subjects-list">
+                <AnimatePresence mode="wait">
+                  {Object.keys(subjects).map((subj, index) => {
+                    const color = getSubjectColor(subj);
+                    const icon = getSubjectIcon(subj);
+                    const fileCount = subjects[subj].length;
+                    
+                    return (
+                      <motion.button
+                        key={subj}
+                        onClick={() => setSelectedSubject(subj)}
+                        className={`subject-item ${selectedSubject === subj ? "active" : ""}`}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.03 }}
+                        whileHover={{ x: 5 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <div className={`subject-icon bg-${color}-subtle`}>
+                          <i className={`bi ${icon} text-${color}`}></i>
+                        </div>
+                        <div className="subject-info">
+                          <span className="subject-name">{subj}</span>
+                          <span className="subject-files">{fileCount} ملف</span>
+                        </div>
+                        {selectedSubject === subj && (
+                          <motion.div
+                            className="active-bar"
+                            layoutId="activeSubject"
+                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                          />
+                        )}
+                      </motion.button>
+                    );
+                  })}
+                </AnimatePresence>
               </div>
             </div>
           </motion.div>
 
-          {/* Files list */}
+          {/* Files Section - Enhanced */}
           <motion.div
-            className="col-md-9"
-            variants={fadeRight}
+            className="col-lg-9"
+            variants={fadeUp}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <div className="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
-              <motion.h3
-                className="h5 fw-bold mb-0 d-flex align-items-center gap-2"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                <BI
-                  icon="bi-google"
-                  className="text-primary"
-                  marginEnd="me-0"
-                />
-                <span>
-                  {selectedSubject} — {selectedLevel}
-                </span>
-              </motion.h3>
-              <motion.span
-                className="badge bg-secondary"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.3 }}
-              >
-                {files.length} درس
-              </motion.span>
-            </div>
-
-            {files.length === 0 ? (
-              <motion.div
-                className="text-center py-5 bg-light rounded-4"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-              >
-                <BI
-                  icon="bi-search"
-                  className="display-1 text-secondary mb-3"
-                  style={{ opacity: 0.5, fontSize: "4rem" }}
-                  marginEnd="me-0"
-                />
-                <p className="text-secondary">لا توجد نتائج للبحث</p>
-              </motion.div>
-            ) : (
-              <motion.div
-                variants={staggerContainer}
-                initial="hidden"
-                animate="visible"
-              >
-                {files.map((file, i) => (
+            <div className="files-section">
+              {/* Header */}
+              <div className="files-header">
+                <div className="header-info">
                   <motion.div
-                    className="card border-0 shadow-sm mb-3 hover-shadow-lg"
-                    key={i}
-                    variants={staggerItem}
-                    whileHover={{ y: -5, boxShadow: "0 10px 20px rgba(0,0,0,0.1)" }}
-                    transition={{ duration: 0.2 }}
+                    className={`subject-badge bg-${getSubjectColor(selectedSubject)}-subtle`}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 200 }}
                   >
-                    <div className="card-body d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
-                      <div className="d-flex align-items-center gap-3">
-                        <motion.div
-                          className="bg-danger bg-opacity-10 p-3 rounded-3"
-                          whileHover={{ rotate: 5, scale: 1.05 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <BI
-                            icon="bi-file-pdf-fill"
-                            className="text-danger fs-2"
-                            marginEnd="me-0"
-                          />
-                        </motion.div>
-                        <div>
-                          <h6 className="fw-bold mb-1">{file.name}</h6>
-                          <small className="text-secondary d-flex align-items-center gap-1">
-                            <BI icon="bi-file-earmark-text" marginEnd="me-0" />
-                            <span>PDF • {file.size}</span>
-                          </small>
-                        </div>
-                      </div>
-                      <motion.a
-                        href={file.file}
-                        className="btn btn-primary rounded-pill px-4 d-inline-flex align-items-center gap-2"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <span>تحميل</span>
-                        <BI icon="bi-download" marginEnd="me-0" />
-                      </motion.a>
-                    </div>
+                    <i className={`bi ${getSubjectIcon(selectedSubject)} text-${getSubjectColor(selectedSubject)}`}></i>
                   </motion.div>
-                ))}
-              </motion.div>
-            )}
+                  <div>
+                    <h3>{selectedSubject}</h3>
+                    <p className="level-name">{selectedLevel}</p>
+                  </div>
+                </div>
+                
+                <div className="header-actions">
+                  <motion.div 
+                    className="file-count-badge"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <i className="bi bi-file-earmark-text"></i>
+                    <span>{files.length} درس</span>
+                  </motion.div>
+                  
+                  {/* View Mode Toggle */}
+                  <div className="view-toggle">
+                    <motion.button
+                      className={`view-btn ${viewMode === "list" ? "active" : ""}`}
+                      onClick={() => setViewMode("list")}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <i className="bi bi-list-ul"></i>
+                    </motion.button>
+                    <motion.button
+                      className={`view-btn ${viewMode === "grid" ? "active" : ""}`}
+                      onClick={() => setViewMode("grid")}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <i className="bi bi-grid-3x3"></i>
+                    </motion.button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Files Content */}
+              <AnimatePresence mode="wait">
+                {files.length === 0 ? (
+                  <motion.div
+                    className="empty-state"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <motion.div
+                      className="empty-icon"
+                      animate={{ 
+                        y: [0, -10, 0],
+                        rotate: [0, -5, 5, 0]
+                      }}
+                      transition={{ 
+                        duration: 3,
+                        repeat: Infinity,
+                        repeatType: "reverse"
+                      }}
+                    >
+                      <i className="bi bi-search"></i>
+                    </motion.div>
+                    <h5>لا توجد نتائج</h5>
+                    <p>لم نتمكن من العثور على دروس تطابق بحثك</p>
+                    <motion.button
+                      className="clear-search-btn"
+                      onClick={() => setSearch("")}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      مسح البحث
+                    </motion.button>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key={viewMode}
+                    className={`files-container ${viewMode}`}
+                    variants={staggerContainer}
+                    initial="hidden"
+                    animate="visible"
+                    exit={{ opacity: 0 }}
+                  >
+                    {files.map((file, i) => (
+                      <motion.div
+                        className="file-card"
+                        key={i}
+                        variants={staggerItem}
+                        whileHover={{ 
+                          y: -5,
+                          boxShadow: "0 15px 30px rgba(0,0,0,0.1)"
+                        }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <div className="file-card-content">
+                          <div className="file-icon-wrapper">
+                            <motion.div
+                              className="file-icon"
+                              whileHover={{ rotate: 5, scale: 1.1 }}
+                              transition={{ type: "spring", stiffness: 300 }}
+                            >
+                              <i className="bi bi-file-pdf-fill"></i>
+                            </motion.div>
+                          </div>
+                          
+                          <div className="file-info">
+                            <h6 className="file-name">{file.name}</h6>
+                            <div className="file-meta">
+                              <span className="file-type">
+                                <i className="bi bi-filetype-pdf"></i>
+                                PDF
+                              </span>
+                              <span className="file-size">
+                                <i className="bi bi-hdd-stack"></i>
+                                {file.size}
+                              </span>
+                            </div>
+                          </div>
+                          
+                          <motion.a
+                            href={file.file}
+                            className="download-btn"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            download
+                          >
+                            <i className="bi bi-download"></i>
+                            <span>تحميل</span>
+                          </motion.a>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </motion.div>
         </div>
       </div>
+
+      {/* Custom Styles */}
+      <style jsx>{`
+        /* Level Tabs */
+        .level-tab {
+          position: relative;
+          padding: 12px 24px;
+          border: none;
+          background: white;
+          border-radius: 50px;
+          font-weight: 600;
+          color: #6c757d;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+          transition: all 0.3s ease;
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .level-tab i {
+          font-size: 1.1rem;
+        }
+
+        .level-tab.active {
+          color: white;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .active-indicator {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 3px;
+          background: white;
+          border-radius: 3px 3px 0 0;
+        }
+
+        /* Subjects Sidebar */
+        .subjects-sidebar {
+          background: white;
+          border-radius: 20px;
+          box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+          overflow: hidden;
+          position: sticky;
+          top: 20px;
+        }
+
+        .sidebar-header {
+          padding: 20px;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .sidebar-header i {
+          font-size: 1.3rem;
+        }
+
+        .sidebar-header h6 {
+          margin: 0;
+          font-weight: 600;
+          flex: 1;
+        }
+
+        .subject-count {
+          background: rgba(255,255,255,0.2);
+          padding: 4px 10px;
+          border-radius: 20px;
+          font-size: 0.85rem;
+          font-weight: 600;
+        }
+
+        .subjects-list {
+          padding: 10px 0;
+        }
+
+        .subject-item {
+          position: relative;
+          width: 100%;
+          padding: 15px 20px;
+          border: none;
+          background: transparent;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          text-align: right;
+        }
+
+        .subject-item:hover {
+          background: #f8f9fa;
+        }
+
+        .subject-item.active {
+          background: linear-gradient(90deg, #f8f9ff 0%, white 100%);
+        }
+
+        .subject-icon {
+          width: 40px;
+          height: 40px;
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.2rem;
+          transition: all 0.3s ease;
+        }
+
+        .subject-item:hover .subject-icon {
+          transform: scale(1.1);
+        }
+
+        .subject-info {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+
+        .subject-name {
+          font-weight: 600;
+          color: #2d3748;
+        }
+
+        .subject-files {
+          font-size: 0.75rem;
+          color: #718096;
+        }
+
+        .active-bar {
+          position: absolute;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          width: 3px;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          border-radius: 3px 0 0 3px;
+        }
+
+        /* Files Section */
+        .files-section {
+          background: white;
+          border-radius: 20px;
+          box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+          overflow: hidden;
+          min-height: 500px;
+        }
+
+        .files-header {
+          padding: 25px;
+          border-bottom: 1px solid #e2e8f0;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 20px;
+        }
+
+        .header-info {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+        }
+
+        .subject-badge {
+          width: 50px;
+          height: 50px;
+          border-radius: 15px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.5rem;
+        }
+
+        .header-info h3 {
+          margin: 0;
+          font-weight: 700;
+          color: #1a202c;
+        }
+
+        .level-name {
+          margin: 5px 0 0;
+          color: #718096;
+          font-size: 0.9rem;
+        }
+
+        .header-actions {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+        }
+
+        .file-count-badge {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 8px 16px;
+          background: #f7fafc;
+          border-radius: 25px;
+          color: #4a5568;
+          font-weight: 600;
+          font-size: 0.9rem;
+        }
+
+        .view-toggle {
+          display: flex;
+          gap: 5px;
+          background: #f7fafc;
+          padding: 4px;
+          border-radius: 12px;
+        }
+
+        .view-btn {
+          width: 36px;
+          height: 36px;
+          border: none;
+          background: transparent;
+          border-radius: 10px;
+          color: #718096;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .view-btn.active {
+          background: white;
+          color: #667eea;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        /* Files Container */
+        .files-container {
+          padding: 25px;
+        }
+
+        .files-container.grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+          gap: 20px;
+        }
+
+        .files-container.list .file-card {
+          margin-bottom: 15px;
+        }
+
+        .file-card {
+          background: white;
+          border-radius: 16px;
+          border: 1px solid #e2e8f0;
+          transition: all 0.3s ease;
+          overflow: hidden;
+        }
+
+        .file-card-content {
+          padding: 20px;
+          display: flex;
+          align-items: center;
+          gap: 15px;
+        }
+
+        .grid .file-card-content {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .file-icon-wrapper {
+          flex-shrink: 0;
+        }
+
+        .file-icon {
+          width: 50px;
+          height: 50px;
+          background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+          border-radius: 14px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #dc2626;
+          font-size: 1.8rem;
+        }
+
+        .grid .file-icon {
+          width: 80px;
+          height: 80px;
+          font-size: 2.5rem;
+          margin-bottom: 10px;
+        }
+
+        .file-info {
+          flex: 1;
+        }
+
+        .file-name {
+          margin: 0 0 8px;
+          font-weight: 600;
+          color: #1a202c;
+          line-height: 1.4;
+        }
+
+        .file-meta {
+          display: flex;
+          gap: 15px;
+        }
+
+        .grid .file-meta {
+          justify-content: center;
+        }
+
+        .file-type, .file-size {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          font-size: 0.8rem;
+          color: #718096;
+        }
+
+        .download-btn {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 10px 20px;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          border-radius: 30px;
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 0.9rem;
+          transition: all 0.3s ease;
+          flex-shrink: 0;
+        }
+
+        .download-btn:hover {
+          color: white;
+          box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .grid .download-btn {
+          width: 100%;
+          justify-content: center;
+          margin-top: 15px;
+        }
+
+        /* Empty State */
+        .empty-state {
+          padding: 60px 20px;
+          text-align: center;
+        }
+
+        .empty-icon {
+          width: 100px;
+          height: 100px;
+          margin: 0 auto 20px;
+          background: #f7fafc;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 3rem;
+          color: #a0aec0;
+        }
+
+        .empty-state h5 {
+          margin: 0 0 10px;
+          font-weight: 600;
+          color: #2d3748;
+        }
+
+        .empty-state p {
+          color: #718096;
+          margin-bottom: 20px;
+        }
+
+        .clear-search-btn {
+          padding: 10px 25px;
+          background: #f7fafc;
+          border: 1px solid #e2e8f0;
+          border-radius: 25px;
+          color: #4a5568;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .clear-search-btn:hover {
+          background: white;
+          border-color: #667eea;
+          color: #667eea;
+        }
+
+        /* Utility classes for background colors */
+        .bg-primary-subtle { background: #e0e7ff; }
+        .bg-info-subtle { background: #cffafe; }
+        .bg-success-subtle { background: #d1fae5; }
+        .bg-warning-subtle { background: #fef3c7; }
+        .bg-danger-subtle { background: #fee2e2; }
+        .bg-secondary-subtle { background: #e2e8f0; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+          .files-header {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          
+          .header-actions {
+            width: 100%;
+            justify-content: space-between;
+          }
+          
+          .files-container.grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
     </motion.div>
   );
 }

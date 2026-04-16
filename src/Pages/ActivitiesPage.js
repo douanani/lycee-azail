@@ -18,7 +18,7 @@ export default function ActivitiesPage() {
       <PageHeader
         icon="bi-calendar-event-fill"
         title="النشاطات والفعاليات"
-        sub="آخر الأخبار والأنشطة المدرسية للعام الدراسي 2024/2025"
+        sub="آخر الأخبار والأنشطة المدرسية للعام الدراسي 2025/2026"
       />
 
       <div className="container py-5">

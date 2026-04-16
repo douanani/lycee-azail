@@ -12,10 +12,10 @@ export const NAV_LINKS = [
 ];
 
 export const STATS = [
-  { value: "850+", label: "تلميذ", icon: "bi-people-fill" },
-  { value: "60+", label: "أستاذ", icon: "bi-person-badge-fill" },
-  { value: "18", label: "قسم", icon: "bi-door-open-fill" },
-  { value: "1985", label: "سنة التأسيس", icon: "bi-calendar-check-fill" },
+  { value: "236", label: "تلميذ", icon: "bi-people-fill" },
+  { value: "20", label: "أستاذ", icon: "bi-person-badge-fill" },
+  { value: "8", label: "أقسام", icon: "bi-door-open-fill" },
+  { value: "2019", label: "سنة التأسيس", icon: "bi-calendar-check-fill" },
 ];
 
 export const LESSONS = {
