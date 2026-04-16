@@ -4,22 +4,17 @@ import { BI } from "../Utils/icons";
 
 export default function Navbar({ page, setPage }) {
   return (
-    <nav
-      className="navbar navbar-expand-lg navbar-dark shadow-lg fixed-top"
+    <nav className="navbar navbar-expand-lg navbar-dark shadow-lg sticky-top"
       style={{
         background: "linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)",
         zIndex: 1000,
       }}
     >
       <div className="container">
-        <a
-          className="navbar-brand d-flex align-items-center gap-2"
-          href="/"
-          onClick={(e) => {
-            e.preventDefault();
-            setPage("home");
-          }}
-        >
+      <button
+  className="navbar-brand d-flex align-items-center gap-2 border-0 bg-transparent"
+  onClick={() => setPage("home")}
+>
           <BI
             icon="bi-building"
             style={{ fontSize: "1.8rem", color: "#60a5fa" }}
@@ -30,7 +25,7 @@ export default function Navbar({ page, setPage }) {
               {SCHOOL_NAME}
             </div>
           </div>
-        </a>
+        </button>
         <button
           className="navbar-toggler border-0"
           type="button"
