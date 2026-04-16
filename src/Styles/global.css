@@ -1,0 +1,210 @@
+/* styles/global.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Noto Sans Arabic', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Ensure consistent spacing between icons and text */
+.bi {
+  vertical-align: middle;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Override Bootstrap's default me-2 class to ensure spacing */
+.me-2 {
+  margin-right: 0.5rem !important;
+}
+
+.gap-1 {
+  gap: 0.25rem !important;
+}
+
+.gap-2 {
+  gap: 0.5rem !important;
+}
+
+.gap-3 {
+  gap: 1rem !important;
+}
+
+.min-vh-75 {
+  min-height: 75vh;
+}
+
+.py-6 {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+.hover-shadow-lg {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.hover-shadow-lg:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 1rem 3rem rgba(0,0,0,0.15) !important;
+}
+
+.bg-purple {
+  background-color: #8b5cf6 !important;
+}
+
+.bg-pink {
+  background-color: #ec4899 !important;
+}
+
+.border-dashed {
+  border-style: dashed !important;
+}
+
+.navbar-nav .nav-link.active {
+  background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%) !important;
+  border-radius: 10px;
+}
+
+.navbar-nav .nav-link {
+  transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #6c757d;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.card {
+  transition: all 0.3s ease;
+}
+
+.table {
+  vertical-align: middle;
+}
+
+.table thead th {
+  background-color: #212529;
+  color: white;
+  border: 1px solid #dee2e6;
+}
+
+.table tbody td {
+  border: 1px solid #dee2e6;
+}
+
+.badge {
+  font-weight: 500;
+}
+
+/* RTL specific adjustments */
+[dir="rtl"] .me-2 {
+  margin-right: 0 !important;
+  margin-left: 0.5rem !important;
+}
+
+[dir="rtl"] .ms-2 {
+  margin-left: 0 !important;
+  margin-right: 0.5rem !important;
+}
+
+[dir="rtl"] .bi-arrow-left {
+  transform: scaleX(-1);
+}
+
+/* Button hover effects */
+.btn {
+  transition: all 0.3s ease;
+}
+
+/* List group active state */
+.list-group-item.active {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+/* Input focus effects */
+.form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+  border-color: #86b7fe;
+}
+
+@media (max-width: 768px) {
+  .display-3 {
+    font-size: 2rem;
+  }
+  
+  .display-4 {
+    font-size: 1.8rem;
+  }
+  
+  .display-5 {
+    font-size: 1.5rem;
+  }
+  
+  .display-6 {
+    font-size: 1.3rem;
+  }
+  
+  .py-md-6 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  
+  .navbar-brand div div {
+    font-size: 0.8rem !important;
+  }
+  
+  .table {
+    font-size: 0.8rem;
+  }
+  
+  .badge {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .display-3 {
+    font-size: 1.8rem;
+  }
+  
+  .lead {
+    font-size: 1rem;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
