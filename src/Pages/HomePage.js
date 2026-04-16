@@ -120,25 +120,21 @@ export default function HomePage() {
               </span>
               <h2 className="display-6 fw-bold mb-4">تعريف بالمؤسسة</h2>
               <p className="text-secondary mb-3 lh-base">
-                ثانوية حاج بن جعفر العزايل مؤسسة تعليمية عمومية تقع في ولاية
-                وهران، تأسست عام 1985 وأصبحت منذ ذلك الحين واحدة من أبرز
-                الثانويات في المنطقة بفضل كوادرها التربوية المتميزة ومستواها
-                الأكاديمي الرفيع.
+                ثثانوية حاج بن جعفر هي مؤسسة تربوية حديثة تم إنشاؤها لخدمة تلاميذ المنطقة وتوفير ظروف تعليمية أفضل لهم. سُمّيت هذه الثانوية تكريمًا لروح الشهيد حاج بن جعفر، الذي يُعد أول شهيد في المنطقة خلال ثورة التحرير الجزائرية، تقديرًا لتضحياته في سبيل الوطن.
+تقع الثانوية في بلدية العزايل التابعة لدائرة بني سنوس، وقد تم افتتاحها سنة 2019، لتكون أول ثانوية في المنطقة وثاني ثانوية على مستوى الدائرة. ساهم افتتاحها في تخفيف معاناة التلاميذ الذين كانوا يضطرون للتنقل لمسافة بعيدة لمواصلة دراستهم.
+وتلعب الثانوية اليوم دورًا مهمًا في دعم المسار التعليمي للشباب، وتعزيز التحصيل العلمي في المنطقة، مع الحفاظ على قيم الوطنية والاعتزاز بتاريخ الشهداء.
               </p>
               <p className="text-secondary mb-4 lh-base">
-                تضم الثانوية ثلاثة مستويات دراسية: السنة الأولى، الثانية،
-                والثالثة ثانوي، وتقدم شعباً علمية وأدبية متنوعة تلبيةً لاحتياجات
-                التلاميذ وتطلعاتهم.
+                تضم الثانوية ثلاثة مستويات دراسية: السنة الأولى، الثانية، والثالثة ثانوي، في شعبتي علوم تجريبية و آداب و فلسفة
               </p>
               <div className="row g-3">
                 {[
-                  { text: "مخابر علمية مجهزة", icon: "bi-flask" },
+                  { text: "مخابر علمية مجهزة", icon: "bi-ubuntu" },
                   {
-                    text: "مكتبة بمرجعية ثرية",
-                    icon: "bi-journal-bookmark-fill",
+                    text: "مكتبة", icon: "bi-journal-bookmark-fill",
                   },
                   { text: "قاعة إعلام آلي", icon: "bi-laptop" },
-                  { text: "ملعب رياضي متعدد", icon: "bi-trophy-fill" },
+                  { text: "ملعب وقاعة رياضية", icon: "bi-dribbble" },
                 ].map((feature, i) => (
                   <div
                     className="col-sm-6"
@@ -161,18 +157,17 @@ export default function HomePage() {
               </div>
             </div>
             <div className="col-lg-6" data-aos="fade-right">
-              <div
-                className="bg-light p-5 rounded-4 text-center border border-2 border-dashed"
-                style={{ minHeight: "350px" }}
-              >
-                <BI
-                  icon="bi-building"
-                  className="display-1 text-primary mb-3"
-                  style={{ opacity: 0.5, fontSize: "5rem" }}
-                  marginEnd="me-0"
-                />
-                <p className="text-secondary">صورة المؤسسة</p>
-              </div>
+             <div
+  className="rounded-4 overflow-hidden border"
+  style={{ minHeight: "350px" }}
+>
+  <img
+    src={lyceeImage} // ولا أي رابط صورة عندك
+    alt="ثانوية حاج بن جعفر"
+    className="w-100 h-100"
+    style={{ objectFit: "cover", minHeight: "350px" }}
+  />
+</div>
             </div>
           </div>
         </div>
