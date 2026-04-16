@@ -5,13 +5,13 @@ import { ACTIVITIES } from "../Data/constants";
 import { BI } from "../Utils/icons";
 
 export default function ActivitiesPage() {
-  const [filter, setFilter] = useState("الكل");
-  const categories = ["الكل", ...new Set(ACTIVITIES.map((a) => a.category))];
+  //const [filter, setFilter] = useState("الكل");
+ // const categories = ["الكل", ...new Set(ACTIVITIES.map((a) => a.category))];
 
-  const filtered =
-    filter === "الكل"
-      ? ACTIVITIES
-      : ACTIVITIES.filter((a) => a.category === filter);
+ // const filtered =
+   // filter === "الكل"
+   // /  ? ACTIVITIES
+     // : ACTIVITIES.filter((a) => a.category === filter);
 
   return (
     <>
