@@ -28,7 +28,7 @@ export const LESSONS = {
     "تاريخ وجغرافيا": [{ name: "العالم الإسلامي", file: "#", size: "1.1 MB" }],
     "اللغة الفرنسية": [{ name: "Texte argumentatif", file: "#", size: "850 KB" }],
     "اللغة الإنجليزية": [{ name: "Getting through", file: "#", size: "800 KB" }],
-    "المعلوماتية": [{ name: "نظام التشغيل", file: "#", size: "1.3 MB" }],
+    "المعلوماتية": [{ name: "التعليمة الشرطية ", file: "https://drive.google.com/file/d/16Dumx_OAbeDZ_w1glIvQzHolHIOPoRtq/view?usp=drive_link", size: "136 KB" }],
     "تكنولوجيا": [{ name: "الهندسة الكهربائية", file: "#", size: "2.2 MB" }],
     "التربية الفنية": [{ name: "أساسيات الرسم", file: "#", size: "3.0 MB" }],
   },
