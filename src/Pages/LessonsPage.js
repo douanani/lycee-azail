@@ -22,14 +22,14 @@ const staggerContainer = {
 
 const staggerItem = {
   hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
     transition: {
       type: "spring",
       stiffness: 100,
-      damping: 12
-    }
+      damping: 12,
+    },
   },
 };
 
@@ -54,9 +54,9 @@ export default function LessonsPage() {
   // Get subject color based on name
   const getSubjectColor = (subject) => {
     const colors = {
-      "الرياضيات": "primary",
-      "الفيزياء": "info",
-      "العلوم": "success",
+      الرياضيات: "primary",
+      الفيزياء: "info",
+      العلوم: "success",
       "اللغة العربية": "warning",
       "اللغة الفرنسية": "danger",
       "اللغة الإنجليزية": "info",
@@ -70,9 +70,9 @@ export default function LessonsPage() {
   // Get subject icon based on name
   const getSubjectIcon = (subject) => {
     const icons = {
-      "الرياضيات": "bi-calculator-fill",
-      "الفيزياء": "bi-magnet-fill",
-      "العلوم": "bi-flask-fill",
+      الرياضيات: "bi-calculator-fill",
+      الفيزياء: "bi-magnet-fill",
+      العلوم: "bi-flask-fill",
       "اللغة العربية": "bi-book-fill",
       "اللغة الفرنسية": "bi-chat-fill",
       "اللغة الإنجليزية": "bi-chat-dots-fill",
@@ -185,16 +185,18 @@ export default function LessonsPage() {
               <div className="sidebar-header">
                 <i className="bi bi-grid-3x3-gap-fill"></i>
                 <h6>المواد الدراسية</h6>
-                <span className="subject-count">{Object.keys(subjects).length}</span>
+                <span className="subject-count">
+                  {Object.keys(subjects).length}
+                </span>
               </div>
-              
+
               <div className="subjects-list">
                 <AnimatePresence mode="wait">
                   {Object.keys(subjects).map((subj, index) => {
                     const color = getSubjectColor(subj);
                     const icon = getSubjectIcon(subj);
                     const fileCount = subjects[subj].length;
-                    
+
                     return (
                       <motion.button
                         key={subj}
@@ -217,7 +219,11 @@ export default function LessonsPage() {
                           <motion.div
                             className="active-bar"
                             layoutId="activeSubject"
-                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                            transition={{
+                              type: "spring",
+                              stiffness: 300,
+                              damping: 30,
+                            }}
                           />
                         )}
                       </motion.button>
@@ -247,16 +253,18 @@ export default function LessonsPage() {
                     animate={{ scale: 1 }}
                     transition={{ type: "spring", stiffness: 200 }}
                   >
-                    <i className={`bi ${getSubjectIcon(selectedSubject)} text-${getSubjectColor(selectedSubject)}`}></i>
+                    <i
+                      className={`bi ${getSubjectIcon(selectedSubject)} text-${getSubjectColor(selectedSubject)}`}
+                    ></i>
                   </motion.div>
                   <div>
                     <h3>{selectedSubject}</h3>
                     <p className="level-name">{selectedLevel}</p>
                   </div>
                 </div>
-                
+
                 <div className="header-actions">
-                  <motion.div 
+                  <motion.div
                     className="file-count-badge"
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
@@ -265,7 +273,7 @@ export default function LessonsPage() {
                     <i className="bi bi-file-earmark-text"></i>
                     <span>{files.length} درس</span>
                   </motion.div>
-                  
+
                   {/* View Mode Toggle */}
                   <div className="view-toggle">
                     <motion.button
@@ -300,14 +308,14 @@ export default function LessonsPage() {
                   >
                     <motion.div
                       className="empty-icon"
-                      animate={{ 
+                      animate={{
                         y: [0, -10, 0],
-                        rotate: [0, -5, 5, 0]
+                        rotate: [0, -5, 5, 0],
                       }}
-                      transition={{ 
+                      transition={{
                         duration: 3,
                         repeat: Infinity,
-                        repeatType: "reverse"
+                        repeatType: "reverse",
                       }}
                     >
                       <i className="bi bi-search"></i>
@@ -337,9 +345,9 @@ export default function LessonsPage() {
                         className="file-card"
                         key={i}
                         variants={staggerItem}
-                        whileHover={{ 
+                        whileHover={{
                           y: -5,
-                          boxShadow: "0 15px 30px rgba(0,0,0,0.1)"
+                          boxShadow: "0 15px 30px rgba(0,0,0,0.1)",
                         }}
                         transition={{ duration: 0.2 }}
                       >
@@ -353,7 +361,7 @@ export default function LessonsPage() {
                               <i className="bi bi-file-pdf-fill"></i>
                             </motion.div>
                           </div>
-                          
+
                           <div className="file-info">
                             <h6 className="file-name">{file.name}</h6>
                             <div className="file-meta">
@@ -367,13 +375,14 @@ export default function LessonsPage() {
                               </span>
                             </div>
                           </div>
-                          
+
                           <motion.a
                             href={file.file}
                             className="download-btn"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            download
                           >
                             <i className="bi bi-download"></i>
                             <span>تحميل</span>
@@ -400,7 +409,7 @@ export default function LessonsPage() {
           border-radius: 50px;
           font-weight: 600;
           color: #6c757d;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
           transition: all 0.3s ease;
           overflow: hidden;
           display: flex;
@@ -432,7 +441,7 @@ export default function LessonsPage() {
         .subjects-sidebar {
           background: white;
           border-radius: 20px;
-          box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+          box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
           overflow: hidden;
           position: sticky;
           top: 20px;
@@ -458,7 +467,7 @@ export default function LessonsPage() {
         }
 
         .subject-count {
-          background: rgba(255,255,255,0.2);
+          background: rgba(255, 255, 255, 0.2);
           padding: 4px 10px;
           border-radius: 20px;
           font-size: 0.85rem;
@@ -537,7 +546,7 @@ export default function LessonsPage() {
         .files-section {
           background: white;
           border-radius: 20px;
-          box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+          box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
           overflow: hidden;
           min-height: 500px;
         }
@@ -623,7 +632,7 @@ export default function LessonsPage() {
         .view-btn.active {
           background: white;
           color: #667eea;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         /* Files Container */
@@ -704,7 +713,8 @@ export default function LessonsPage() {
           justify-content: center;
         }
 
-        .file-type, .file-size {
+        .file-type,
+        .file-size {
           display: flex;
           align-items: center;
           gap: 5px;
@@ -786,12 +796,24 @@ export default function LessonsPage() {
         }
 
         /* Utility classes for background colors */
-        .bg-primary-subtle { background: #e0e7ff; }
-        .bg-info-subtle { background: #cffafe; }
-        .bg-success-subtle { background: #d1fae5; }
-        .bg-warning-subtle { background: #fef3c7; }
-        .bg-danger-subtle { background: #fee2e2; }
-        .bg-secondary-subtle { background: #e2e8f0; }
+        .bg-primary-subtle {
+          background: #e0e7ff;
+        }
+        .bg-info-subtle {
+          background: #cffafe;
+        }
+        .bg-success-subtle {
+          background: #d1fae5;
+        }
+        .bg-warning-subtle {
+          background: #fef3c7;
+        }
+        .bg-danger-subtle {
+          background: #fee2e2;
+        }
+        .bg-secondary-subtle {
+          background: #e2e8f0;
+        }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -799,12 +821,12 @@ export default function LessonsPage() {
             flex-direction: column;
             align-items: flex-start;
           }
-          
+
           .header-actions {
             width: 100%;
             justify-content: space-between;
           }
-          
+
           .files-container.grid {
             grid-template-columns: 1fr;
           }
