@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import PageHeader from "../components/PageHeader";
 import { TIMETABLE_DATA, HOURS, DAYS, SUBJECT_COLORS, SUBJECT_ICONS } from "../Data/constants";
 
+
 export default function TimetablePage() {
   const classes = Object.keys(TIMETABLE_DATA);
   const [selected, setSelected] = useState(classes[0]);
