@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Analytics } from "@vercel/analytics/react"
+
 
 // Import Components
 import Navbar from "./components/Navbar";
@@ -98,6 +100,7 @@ export default function App() {
         </AnimatePresence>
       </main>
       <Footer setPage={setPage} />
+      <Analytics/>
     </div>
   );
 }

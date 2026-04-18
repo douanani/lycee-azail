@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import lyceeImage from "../images/azail.jpg";
 import { SCHOOL_NAME, SCHOOL_YEAR, STATS } from "../Data/constants";
 import { BI } from "../Utils/icons";
-import { Analytics } from "@vercel/analytics/react"
 
 // Animation variants
 const fadeUp = {
