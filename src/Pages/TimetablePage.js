@@ -110,7 +110,7 @@ export default function TimetablePage() {
       <PageHeader
         icon="bi-calendar-week"
         title="استعمال الزمن"
-        sub="جداول دراسية منظمة لجميع الأقسام — السنة الدراسية 2024/2025"
+        sub="جداول دراسية منظمة لجميع الأقسام — السنة الدراسية 2025/2026"
       />
 
       <div className="container py-4">

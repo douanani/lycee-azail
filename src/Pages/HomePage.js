@@ -66,15 +66,14 @@ export default function HomePage() {
   return (
     <>
       {/* Hero Section */}
-      <section
-        className="position-relative d-flex align-items-center"
-        style={{
-          minHeight: "100vh",
-          paddingTop: "76px",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
+    
+        <section
+          className="position-relative d-flex align-items-center justify-content-center"
+          style={{
+            minHeight: "87vh",
+            overflow: "hidden",
+          }}
+        >
         {/* Background Image with Blue Fade Overlay */}
         <div
           style={{
