@@ -1,10 +1,31 @@
 // components/Navbar.js
 import { Link, useLocation } from "react-router-dom";
+import { useEffect } from "react";           // ← زيد هذا
 import { NAV_LINKS, SCHOOL_NAME } from "../Data/constants";
 import { BI } from "../Utils/icons";
 
 export default function Navbar() {
   const location = useLocation();
+
+  // ← زيد هذا الـ useEffect
+  useEffect(() => {
+    // 1) إغلاق الـ collapse تاع Bootstrap
+    const navbarEl = document.getElementById("navbarNav");
+    if (navbarEl && navbarEl.classList.contains("show")) {
+      // نستخدم Bootstrap Collapse API مباشرة
+      const { Collapse } = window.bootstrap || {};
+      if (Collapse) {
+        const collapseInstance = Collapse.getOrCreateInstance(navbarEl);
+        collapseInstance.hide();
+      } else {
+        // fallback إذا ما كانتش Bootstrap global
+        navbarEl.classList.remove("show");
+      }
+    }
+
+    // 2) Scroll to top بشكل سلس
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [location]); // يتشغل في كل مرة تتغير الـ route
 
   return (
     <nav
