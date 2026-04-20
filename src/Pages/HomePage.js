@@ -3,51 +3,52 @@ import { motion } from "framer-motion";
 import lyceeImage from "../images/azail.jpg";
 import { SCHOOL_NAME, SCHOOL_YEAR, STATS } from "../Data/constants";
 import { BI } from "../Utils/icons";
+import { Link } from "react-router-dom";
 
 // Animation variants
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: "easeOut" }
-  }
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
 };
 
 const fadeLeft = {
   hidden: { opacity: 0, x: -50 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     x: 0,
-    transition: { duration: 0.6, ease: "easeOut" }
-  }
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
 };
 
 const fadeRight = {
   hidden: { opacity: 0, x: 50 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     x: 0,
-    transition: { duration: 0.6, ease: "easeOut" }
-  }
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
 };
 
 const flipLeft = {
   hidden: { opacity: 0, rotateY: -90 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     rotateY: 0,
-    transition: { duration: 0.5, ease: "easeOut" }
-  }
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
 };
 
 const zoomIn = {
   hidden: { opacity: 0, scale: 0.8 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     scale: 1,
-    transition: { duration: 0.5, ease: "easeOut" }
-  }
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
 };
 
 const staggerContainer = {
@@ -56,9 +57,9 @@ const staggerContainer = {
     opacity: 1,
     transition: {
       staggerChildren: 0.1,
-      delayChildren: 0.2
-    }
-  }
+      delayChildren: 0.2,
+    },
+  },
 };
 
 export default function HomePage() {
@@ -134,10 +135,13 @@ export default function HomePage() {
                     <span>اكتشف المؤسسة</span>
                     <BI icon="bi-arrow-left" marginEnd="me-0" />
                   </button>
-                  <button className="btn btn-outline-light btn-lg px-5 py-3 rounded-pill d-inline-flex align-items-center gap-2">
+                  <Link
+                    to="/lessons"
+                    className="btn btn-outline-light btn-lg px-5 py-3 rounded-pill d-inline-flex align-items-center gap-2"
+                  >
                     <span>تحميل الدروس</span>
                     <BI icon="bi-download" marginEnd="me-0" />
-                  </button>
+                  </Link>
                 </div>
               </motion.div>
             </div>
@@ -194,14 +198,23 @@ export default function HomePage() {
                 </span>
                 <h2 className="display-6 fw-bold mb-4">تعريف بالمؤسسة</h2>
                 <p className="text-secondary mb-3 lh-base">
-                  ثانوية حاج بن جعفر هي مؤسسة تربوية حديثة تم إنشاؤها لخدمة تلاميذ المنطقة وتوفير ظروف تعليمية أفضل لهم. سُمّيت هذه الثانوية تكريمًا لروح الشهيد حاج بن جعفر، الذي يُعد أول شهيد في المنطقة خلال ثورة التحرير الجزائرية، تقديرًا لتضحياته في سبيل الوطن.
-                  تقع الثانوية في بلدية العزايل التابعة لدائرة بني سنوس، وقد تم افتتاحها سنة 2019، لتكون أول ثانوية في المنطقة وثاني ثانوية على مستوى الدائرة. ساهم افتتاحها في تخفيف معاناة التلاميذ الذين كانوا يضطرون للتنقل لمسافة بعيدة لمواصلة دراستهم.
-                  وتلعب الثانوية اليوم دورًا مهمًا في دعم المسار التعليمي للشباب، وتعزيز التحصيل العلمي في المنطقة، مع الحفاظ على قيم الوطنية والاعتزاز بتاريخ الشهداء.
+                  ثانوية حاج بن جعفر هي مؤسسة تربوية حديثة تم إنشاؤها لخدمة
+                  تلاميذ المنطقة وتوفير ظروف تعليمية أفضل لهم. سُمّيت هذه
+                  الثانوية تكريمًا لروح الشهيد حاج بن جعفر، الذي يُعد أول شهيد
+                  في المنطقة خلال ثورة التحرير الجزائرية، تقديرًا لتضحياته في
+                  سبيل الوطن. تقع الثانوية في بلدية العزايل التابعة لدائرة بني
+                  سنوس، وقد تم افتتاحها سنة 2019، لتكون أول ثانوية في المنطقة
+                  وثاني ثانوية على مستوى الدائرة. ساهم افتتاحها في تخفيف معاناة
+                  التلاميذ الذين كانوا يضطرون للتنقل لمسافة بعيدة لمواصلة
+                  دراستهم. وتلعب الثانوية اليوم دورًا مهمًا في دعم المسار
+                  التعليمي للشباب، وتعزيز التحصيل العلمي في المنطقة، مع الحفاظ
+                  على قيم الوطنية والاعتزاز بتاريخ الشهداء.
                 </p>
                 <p className="text-secondary mb-4 lh-base">
-                  تضم الثانوية ثلاثة مستويات دراسية: السنة الأولى، الثانية، والثالثة ثانوي، في شعبتي علوم تجريبية وآداب وفلسفة
+                  تضم الثانوية ثلاثة مستويات دراسية: السنة الأولى، الثانية،
+                  والثالثة ثانوي، في شعبتي علوم تجريبية وآداب وفلسفة
                 </p>
-                <motion.div 
+                <motion.div
                   className="row g-3"
                   variants={staggerContainer}
                   initial="hidden"
@@ -273,7 +286,7 @@ export default function HomePage() {
               <h2 className="display-6 fw-bold">خدمات الموقع</h2>
             </motion.div>
           </div>
-          <motion.div 
+          <motion.div
             className="row g-4"
             variants={staggerContainer}
             initial="hidden"
@@ -307,10 +320,7 @@ export default function HomePage() {
               },
             ].map((card, i) => (
               <div className="col-sm-6 col-lg-3" key={i}>
-                <motion.div
-                  variants={zoomIn}
-                  transition={{ delay: i * 0.1 }}
-                >
+                <motion.div variants={zoomIn} transition={{ delay: i * 0.1 }}>
                   <div className="card h-100 border-0 shadow-sm hover-shadow-lg transition">
                     <div className="card-body text-center p-4">
                       <div
