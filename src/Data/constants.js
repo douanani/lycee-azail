@@ -103,7 +103,18 @@ export const LESSONS = {
     فلسفة: [],
     رياضيات: [],
     "علوم إسلامية": [],
-    "تاريخ وجغرافيا": [],
+    "تاريخ وجغرافيا": [
+      {
+        name: " شخصيات على شكل مخطط ",
+        file: "https://drive.google.com/file/d/1Qj9pD2tE8r_Zib2-ithaLa1yUcseFgaC/view?usp=drive_link",
+        size: "9.7 MB",
+      },
+       {
+        name: " شخصيات و مصطلحات التاريخ",
+        file: "https://drive.google.com/file/d/1JoaAP_Tp0vgYUqP1i7Bohz_lVovwtTOz/view?usp=drive_link",
+        size: "9.7 MB",
+      },
+    ],
     "اللغة الفرنسية": [],
     "اللغة الإنجليزية": [],
   },
