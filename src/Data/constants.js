@@ -94,7 +94,43 @@ export const LESSONS = {
     فيزياء: [],
     "علوم طبيعية": [],
     "علوم إسلامية": [],
-    "تاريخ وجغرافيا": [],
+    "تاريخ وجغرافيا": [
+      {
+        name: " شخصيات على شكل مخطط ",
+        file: "https://drive.google.com/file/d/1Qj9pD2tE8r_Zib2-ithaLa1yUcseFgaC/view?usp=drive_link",
+        size: "9.7 MB",
+      },
+      {
+        name: " شخصيات و مصطلحات التاريخ الفصل الأول",
+        file: "https://drive.google.com/file/d/1JoaAP_Tp0vgYUqP1i7Bohz_lVovwtTOz/view?usp=drive_link",
+        size: "33.33 MB",
+      },
+      {
+        name: " مصطلحات الجغرافيا الفصل الأول بكالوريا",
+        file: "https://drive.google.com/file/d/1MKWAKKeKMSSVM9jTrrVc0-VLL57oREtY/view?usp=drive_link",
+        size: "4.3 MB",
+      },
+      {
+        name: " خرائط رقم 1",
+        file: "https://drive.google.com/file/d/1ImKfZBNhimvMwdKTEgKfKKP19mVWU0pG/view?usp=sharing",
+        size: "108 MB",
+      },
+      {
+        name: "أسئلة استنتاجية تاريخ",
+        file: "https://drive.google.com/file/d/1H5wjFHIjGYEZj2TaG2DsiqkUub0REmN_/view?usp=drive_link",
+        size: "5.3 MB",
+      },
+      {
+        name: "مصطلحات الفصول الثلاثة المهمة",
+        file: "https://drive.google.com/file/d/1AsykS724bUXyN0r9tAjg7sMrpgPZktnZ/view?usp=drive_link",
+        size: "8.8 MB",
+      },
+    {
+      name: " مصطلحات الفصل الثالث تاريخ و جغرافيا ",
+      file: "https://drive.google.com/file/d/1pD-mZEvQsVxEJ8ylX0tt8InBftT6T2I4/view?usp=drive_link",
+      size: "6.1 MB",
+    }
+    ],
     "اللغة الفرنسية": [],
     "اللغة الإنجليزية": [],
   },
@@ -117,8 +153,28 @@ export const LESSONS = {
       {
         name: " مصطلحات الجغرافيا الفصل الأول بكالوريا",
         file: "https://drive.google.com/file/d/1MKWAKKeKMSSVM9jTrrVc0-VLL57oREtY/view?usp=drive_link",
-        size: "33.33 MB",
+        size: "4.3 MB",
       },
+      {
+        name: " خرائط رقم 1",
+        file: "https://drive.google.com/file/d/1ImKfZBNhimvMwdKTEgKfKKP19mVWU0pG/view?usp=sharing",
+        size: "108 MB",
+      },
+      {
+        name: "أسئلة استنتاجية تاريخ",
+        file: "https://drive.google.com/file/d/1H5wjFHIjGYEZj2TaG2DsiqkUub0REmN_/view?usp=drive_link",
+        size: "5.3 MB",
+      },
+      {
+        name: "مصطلحات الفصول الثلاثة المهمة",
+        file: "https://drive.google.com/file/d/1AsykS724bUXyN0r9tAjg7sMrpgPZktnZ/view?usp=drive_link",
+        size: "8.8 MB",
+      },
+    {
+      name: " مصطلحات الفصل الثالث تاريخ و جغرافيا ",
+      file: "https://drive.google.com/file/d/1pD-mZEvQsVxEJ8ylX0tt8InBftT6T2I4/view?usp=drive_link",
+      size: "6.1 MB",
+    }
     ],
     "اللغة الفرنسية": [],
     "اللغة الإنجليزية": [],
