@@ -109,10 +109,15 @@ export const LESSONS = {
         file: "https://drive.google.com/file/d/1Qj9pD2tE8r_Zib2-ithaLa1yUcseFgaC/view?usp=drive_link",
         size: "9.7 MB",
       },
-       {
-        name: " شخصيات و مصطلحات التاريخ",
+      {
+        name: " شخصيات و مصطلحات التاريخ الفصل الأول",
         file: "https://drive.google.com/file/d/1JoaAP_Tp0vgYUqP1i7Bohz_lVovwtTOz/view?usp=drive_link",
-        size: "9.7 MB",
+        size: "33.33 MB",
+      },
+      {
+        name: " مصطلحات الجغرافيا الفصل الأول بكالوريا",
+        file: "https://drive.google.com/file/d/1JoaAP_Tp0vgYUqP1i7Bohz_lVovwtTOz/view?usp=drive_link",
+        size: "33.33 MB",
       },
     ],
     "اللغة الفرنسية": [],
