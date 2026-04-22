@@ -116,7 +116,7 @@ export const LESSONS = {
       },
       {
         name: " مصطلحات الجغرافيا الفصل الأول بكالوريا",
-        file: "https://drive.google.com/file/d/1JoaAP_Tp0vgYUqP1i7Bohz_lVovwtTOz/view?usp=drive_link",
+        file: "https://drive.google.com/file/d/1MKWAKKeKMSSVM9jTrrVc0-VLL57oREtY/view?usp=drive_link",
         size: "33.33 MB",
       },
     ],
