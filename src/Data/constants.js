@@ -6,6 +6,7 @@ export const SCHOOL_YEAR = "2025 / 2026";
 export const NAV_LINKS = [
   { id: "home", label: "الرئيسية", icon: "bi-building" },
   { id: "lessons", label: "الدروس", icon: "bi-journal-bookmark-fill" },
+  { id: "exams", label: "فروض وامتحانات", icon: "bi-clipboard-data-fill" },
   { id: "activities", label: "النشاطات", icon: "bi-calendar-event-fill" },
   { id: "timetable", label: "استعمال الزمن", icon: "bi-clock-fill" },
   { id: "contact", label: "اتصل بنا", icon: "bi-telephone-fill" },
@@ -17,6 +18,186 @@ export const STATS = [
   { value: "8", label: "أقسام", icon: "bi-door-open-fill" },
   { value: "2019", label: "سنة التأسيس", icon: "bi-calendar-check-fill" },
 ];
+// Data/constants.js
+export const EXAMS = {
+  "السنة أولى جذع مشترك علوم وتكنولوجيا": {
+    "لغة عربية": [],
+    رياضيات: [],
+    فيزياء: [],
+    "علوم طبيعية": [],
+    "علوم إسلامية": [],
+    "تاريخ وجغرافيا": [],
+    "اللغة الفرنسية": [],
+    "اللغة الإنجليزية": [],
+    المعلوماتية: [
+      {
+        name: "فرض الفصل الثالث في مادة المعلوماتية أولى علوم",
+        file: "https://drive.google.com/file/d/1xQaGlvMGWfNc_C1lI2OelUT8MI0KsESp/view?usp=drive_link",
+        size: "262 KB",
+        type: "homework",
+        date: "2024-11-15"
+      },
+      
+    ],
+    تكنولوجيا: [],
+    "التربية الفنية": [],
+  },
+  "السنة أولى جذع مشترك آداب": {
+    "لغة عربية": [],
+    رياضيات: [],
+    فيزياء: [],
+    "علوم طبيعية": [],
+    "علوم إسلامية": [],
+    "تاريخ وجغرافيا": [],
+    "اللغة الفرنسية": [],
+    "اللغة الإنجليزية": [],
+    المعلوماتية: [],
+    "التربية الفنية": [],
+  },
+  "السنة الثانية علوم تجريبية": {
+    "لغة عربية": [],
+    رياضيات: [],
+    فيزياء: [],
+    "علوم طبيعية": [],
+    "علوم إسلامية": [],
+    "تاريخ وجغرافيا": [],
+    "اللغة الفرنسية": [],
+    "اللغة الإنجليزية": [],
+    "التربية الفنية": [],
+  },
+  "السنة الثانية آداب وفلسفة": {
+    "لغة عربية": [],
+    فلسفة: [],
+    رياضيات: [],
+    فيزياء: [],
+    "علوم طبيعية": [],
+    "علوم إسلامية": [],
+    "تاريخ وجغرافيا": [],
+    "اللغة الفرنسية": [],
+    "اللغة الإنجليزية": [],
+    "التربية الفنية": [],
+  },
+  "السنة الثالثة علوم تجريبية": {
+    "لغة عربية": [],
+    رياضيات: [],
+    فيزياء: [],
+    "علوم طبيعية": [],
+    "علوم إسلامية": [],
+    "تاريخ وجغرافيا": [
+      {
+        name: "اختبار الفصل الأول - شخصيات على شكل مخطط",
+        file: "https://drive.google.com/file/d/1Qj9pD2tE8r_Zib2-ithaLa1yUcseFgaC/view?usp=drive_link",
+        size: "9.7 MB",
+        type: "exam",
+        date: "2024-11-20"
+      },
+      {
+        name: "فرض الفصل الأول - شخصيات و مصطلحات التاريخ",
+        file: "https://drive.google.com/file/d/1JoaAP_Tp0vgYUqP1i7Bohz_lVovwtTOz/view?usp=drive_link",
+        size: "33.33 MB",
+        type: "homework",
+        date: "2024-10-25"
+      },
+      {
+        name: "اختبار الفصل الأول - مصطلحات الجغرافيا",
+        file: "https://drive.google.com/file/d/1MKWAKKeKMSSVM9jTrrVc0-VLL57oREtY/view?usp=drive_link",
+        size: "4.3 MB",
+        type: "exam",
+        date: "2024-11-22"
+      },
+      {
+        name: "فرض الفصل الثاني - خرائط رقم 1",
+        file: "https://drive.google.com/file/d/1ImKfZBNhimvMwdKTEgKfKKP19mVWU0pG/view?usp=sharing",
+        size: "108 MB",
+        type: "homework",
+        date: "2024-12-15"
+      },
+      {
+        name: "اختبار الفصل الثاني - أسئلة استنتاجية تاريخ",
+        file: "https://drive.google.com/file/d/1H5wjFHIjGYEZj2TaG2DsiqkUub0REmN_/view?usp=drive_link",
+        size: "5.3 MB",
+        type: "exam",
+        date: "2025-01-05"
+      },
+      {
+        name: "فرض الفصل الثالث - مصطلحات الفصول الثلاثة المهمة",
+        file: "https://drive.google.com/file/d/1AsykS724bUXyN0r9tAjg7sMrpgPZktnZ/view?usp=drive_link",
+        size: "8.8 MB",
+        type: "homework",
+        date: "2025-02-20"
+      },
+      {
+        name: "اختبار الفصل الثالث - مصطلحات الفصل الثالث تاريخ و جغرافيا",
+        file: "https://drive.google.com/file/d/1pD-mZEvQsVxEJ8ylX0tt8InBftT6T2I4/view?usp=drive_link",
+        size: "6.1 MB",
+        type: "exam",
+        date: "2025-03-10"
+      }
+    ],
+    "اللغة الفرنسية": [],
+    "اللغة الإنجليزية": [],
+  },
+  "السنة الثالثة آداب و فلسفة": {
+    "لغة عربية": [],
+    فلسفة: [],
+    رياضيات: [],
+    "علوم إسلامية": [],
+    "تاريخ وجغرافيا": [
+      {
+        name: "اختبار الفصل الأول - شخصيات على شكل مخطط",
+        file: "https://drive.google.com/file/d/1Qj9pD2tE8r_Zib2-ithaLa1yUcseFgaC/view?usp=drive_link",
+        size: "9.7 MB",
+        type: "exam",
+        date: "2024-11-20"
+      },
+      {
+        name: "فرض الفصل الأول - شخصيات و مصطلحات التاريخ",
+        file: "https://drive.google.com/file/d/1JoaAP_Tp0vgYUqP1i7Bohz_lVovwtTOz/view?usp=drive_link",
+        size: "33.33 MB",
+        type: "homework",
+        date: "2024-10-25"
+      },
+      {
+        name: "اختبار الفصل الأول - مصطلحات الجغرافيا",
+        file: "https://drive.google.com/file/d/1MKWAKKeKMSSVM9jTrrVc0-VLL57oREtY/view?usp=drive_link",
+        size: "4.3 MB",
+        type: "exam",
+        date: "2024-11-22"
+      },
+      {
+        name: "فرض الفصل الثاني - خرائط رقم 1",
+        file: "https://drive.google.com/file/d/1ImKfZBNhimvMwdKTEgKfKKP19mVWU0pG/view?usp=sharing",
+        size: "108 MB",
+        type: "homework",
+        date: "2024-12-15"
+      },
+      {
+        name: "اختبار الفصل الثاني - أسئلة استنتاجية تاريخ",
+        file: "https://drive.google.com/file/d/1H5wjFHIjGYEZj2TaG2DsiqkUub0REmN_/view?usp=drive_link",
+        size: "5.3 MB",
+        type: "exam",
+        date: "2025-01-05"
+      },
+      {
+        name: "فرض الفصل الثالث - مصطلحات الفصول الثلاثة المهمة",
+        file: "https://drive.google.com/file/d/1AsykS724bUXyN0r9tAjg7sMrpgPZktnZ/view?usp=drive_link",
+        size: "8.8 MB",
+        type: "homework",
+        date: "2025-02-20"
+      },
+      {
+        name: "اختبار الفصل الثالث - مصطلحات الفصل الثالث تاريخ و جغرافيا",
+        file: "https://drive.google.com/file/d/1pD-mZEvQsVxEJ8ylX0tt8InBftT6T2I4/view?usp=drive_link",
+        size: "6.1 MB",
+        type: "exam",
+        date: "2025-03-10"
+      }
+    ],
+    "اللغة الفرنسية": [],
+    "اللغة الإنجليزية": [],
+  },
+};
+
 
 export const LESSONS = {
   "السنة أولى جذع مشترك علوم وتكنولوجيا": {
