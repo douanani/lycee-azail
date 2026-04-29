@@ -233,8 +233,13 @@ export const LESSONS = {
        {
         name: "درس الفقرات، العناوين وتنسيقات النص",
         file: "https://drive.google.com/file/d/1tf6IgEJiDBQHQyl7eNN15F_vaaI29zVI/view?usp=sharing",
-        size: "154 KB",
+        size: "90 KB",
       },
+      {
+        name: "ملخص الوسوم الأساسية في لغة HTML",
+        file: "https://drive.google.com/file/d/15coF9v_uMoF-gLrJmad-Pi81o_Nd9VKg/view?usp=drive_link",
+        size: "1.4 MB",
+      }
     ],
     تكنولوجيا: [],
     "التربية الفنية": [],
