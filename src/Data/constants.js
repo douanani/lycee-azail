@@ -211,23 +211,28 @@ export const LESSONS = {
     "اللغة الإنجليزية": [],
     المعلوماتية: [
       {
-        name: "التعليمة الشرطية ",
+        name: "درس التعليمة الشرطية ",
         file: "https://drive.google.com/file/d/16Dumx_OAbeDZ_w1glIvQzHolHIOPoRtq/view?usp=drive_link",
         size: "136 KB",
       },
       {
-        name: "التعليمة التكرارية ",
+        name: "درس التعليمة التكرارية ",
         file: "https://drive.google.com/file/d/1S4nk6dOQH7W2hG3z7BzlzVfSkowbvJGX/view?usp=drive_link",
         size: "132 KB",
       },
       {
-        name: "المتصفح",
+        name: "درس المتصفح",
         file: "https://drive.google.com/file/d/1bn8SZ88T-hjDUqZemtsBs6xI4a-7gcUr/view?usp=drive_link",
         size: "289 KB",
       },
       {
-        name: "هيكل صفحة الويب",
+        name: "درس هيكل صفحة الويب",
         file: "https://drive.google.com/file/d/1dA9MdZhqBfnBDuQK2_OX46O8yADtJCNM/view?usp=drive_linkiew?usp=drive_link",
+        size: "154 KB",
+      },
+       {
+        name: "درس الفقرات، العناوين وتنسيقات النص",
+        file: "https://drive.google.com/file/d/1tf6IgEJiDBQHQyl7eNN15F_vaaI29zVI/view?usp=sharing",
         size: "154 KB",
       },
     ],
