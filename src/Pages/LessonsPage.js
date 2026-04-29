@@ -1,5 +1,5 @@
 // pages/LessonsPage.js
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import PageHeader from "../components/PageHeader";
 import { LESSONS } from "../Data/constants";
@@ -41,9 +41,25 @@ export default function LessonsPage() {
   const [search, setSearch] = useState("");
   const [viewMode, setViewMode] = useState("list"); // 'list' or 'grid'
 
+  // Ref for the files section — used for mobile auto-scroll
+  const filesRef = useRef(null);
+
   const handleLevel = (lvl) => {
     setSelectedLevel(lvl);
     setSelectedSubject(Object.keys(LESSONS[lvl])[0]);
+  };
+
+  // On mobile, auto-scroll to the files section after selecting a subject
+  const handleSubjectChange = (subj) => {
+    setSelectedSubject(subj);
+    if (window.innerWidth < 992) {
+      setTimeout(() => {
+        filesRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }, 100);
+    }
   };
 
   const subjects = LESSONS[selectedLevel] || {};
@@ -200,7 +216,7 @@ export default function LessonsPage() {
                     return (
                       <motion.button
                         key={subj}
-                        onClick={() => setSelectedSubject(subj)}
+                        onClick={() => handleSubjectChange(subj)}
                         className={`subject-item ${selectedSubject === subj ? "active" : ""}`}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -243,7 +259,8 @@ export default function LessonsPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <div className="files-section">
+            {/* ref attached here for mobile scroll target */}
+            <div className="files-section" ref={filesRef}>
               {/* Header */}
               <div className="files-header">
                 <div className="header-info">
@@ -816,6 +833,13 @@ export default function LessonsPage() {
         }
 
         /* Responsive */
+        @media (max-width: 992px) {
+          /* Scroll offset so the header of files-section is not hidden under sticky navbars */
+          .files-section {
+            scroll-margin-top: 20px;
+          }
+        }
+
         @media (max-width: 768px) {
           .files-header {
             flex-direction: column;
