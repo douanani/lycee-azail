@@ -1,8 +1,8 @@
-// pages/LessonsPage.js
-import { useState, useRef } from "react";
+// pages/ExamsPage.js
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import PageHeader from "../components/PageHeader";
-import { LESSONS } from "../Data/constants";
+import { EXAMS } from "../Data/constants";
 
 // Enhanced animation variants
 const fadeUp = {
@@ -33,39 +33,31 @@ const staggerItem = {
   },
 };
 
-export default function LessonsPage() {
-  const [selectedLevel, setSelectedLevel] = useState(Object.keys(LESSONS)[0]);
+export default function ExamsPage() {
+  const [selectedLevel, setSelectedLevel] = useState(Object.keys(EXAMS)[0]);
   const [selectedSubject, setSelectedSubject] = useState(
-    Object.keys(LESSONS[Object.keys(LESSONS)[0]])[0],
+    Object.keys(EXAMS[Object.keys(EXAMS)[0]])[0],
   );
+  const [examType, setExamType] = useState("all"); // 'all', 'exam', 'homework'
   const [search, setSearch] = useState("");
   const [viewMode, setViewMode] = useState("list"); // 'list' or 'grid'
 
-  // Ref for the files section — used for mobile auto-scroll
-  const filesRef = useRef(null);
-
   const handleLevel = (lvl) => {
     setSelectedLevel(lvl);
-    setSelectedSubject(Object.keys(LESSONS[lvl])[0]);
+    setSelectedSubject(Object.keys(EXAMS[lvl])[0]);
   };
 
-  // On mobile, auto-scroll to the files section after selecting a subject
-  const handleSubjectChange = (subj) => {
-    setSelectedSubject(subj);
-    if (window.innerWidth < 992) {
-      setTimeout(() => {
-        filesRef.current?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }, 100);
-    }
+  const subjects = EXAMS[selectedLevel] || {};
+  
+  // Filter by exam type
+  const filterByType = (files) => {
+    if (examType === "all") return files;
+    return files.filter(f => f.type === examType);
   };
 
-  const subjects = LESSONS[selectedLevel] || {};
-  const files = (subjects[selectedSubject] || []).filter(
+  const files = filterByType((subjects[selectedSubject] || []).filter(
     (f) => f.name.toLowerCase().includes(search.toLowerCase()) || search === "",
-  );
+  ));
 
   // Get subject color based on name
   const getSubjectColor = (subject) => {
@@ -79,6 +71,8 @@ export default function LessonsPage() {
       "التاريخ والجغرافيا": "secondary",
       "التربية الإسلامية": "success",
       "التربية المدنية": "warning",
+      الفلسفة: "purple",
+      "علوم الاقتصاد": "teal",
     };
     return colors[subject] || "primary";
   };
@@ -95,8 +89,26 @@ export default function LessonsPage() {
       "التاريخ والجغرافيا": "bi-globe-americas",
       "التربية الإسلامية": "bi-star-fill",
       "التربية المدنية": "bi-people-fill",
+      الفلسفة: "bi-gem-fill",
+      "علوم الاقتصاد": "bi-graph-up",
     };
     return icons[subject] || "bi-journal-bookmark-fill";
+  };
+
+  // Get exam type badge
+  const getExamTypeBadge = (type) => {
+    if (type === "exam") {
+      return {
+        text: "اختبار",
+        class: "exam-badge",
+        icon: "bi-pencil-square"
+      };
+    }
+    return {
+      text: "فرض",
+      class: "homework-badge",
+      icon: "bi-journal-text"
+    };
   };
 
   return (
@@ -107,9 +119,9 @@ export default function LessonsPage() {
       transition={{ duration: 0.3 }}
     >
       <PageHeader
-        icon="bi-journal-bookmark-fill"
-        title="مكتبة الدروس"
-        sub="جميع الدروس مرتبة حسب المستوى والمادة — قابلة للتحميل"
+        icon="bi-pencil-square-fill"
+        title="الفروض و الاختبارات"
+        sub="جميع الفروض والاختبارات مرتبة حسب المستوى والمادة — قابلة للتحميل"
       />
 
       <div className="container py-4">
@@ -131,7 +143,7 @@ export default function LessonsPage() {
                 <input
                   type="text"
                   className="form-control border-0 py-3 ps-2"
-                  placeholder="ابحث عن درس..."
+                  placeholder="ابحث عن فرض أو اختبار..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
@@ -154,7 +166,7 @@ export default function LessonsPage() {
 
         {/* Level Tabs - Enhanced Design */}
         <motion.div
-          className="level-tabs-wrapper mb-5"
+          className="level-tabs-wrapper mb-4"
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
@@ -162,7 +174,7 @@ export default function LessonsPage() {
           transition={{ duration: 0.5, delay: 0.1 }}
         >
           <div className="d-flex gap-2 flex-wrap justify-content-center">
-            {Object.keys(LESSONS).map((lvl, index) => (
+            {Object.keys(EXAMS).map((lvl, index) => (
               <motion.button
                 key={lvl}
                 onClick={() => handleLevel(lvl)}
@@ -184,6 +196,46 @@ export default function LessonsPage() {
                 )}
               </motion.button>
             ))}
+          </div>
+        </motion.div>
+
+        {/* Exam Type Filter */}
+        <motion.div
+          className="exam-type-filter mb-4"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.15 }}
+        >
+          <div className="d-flex gap-3 justify-content-center">
+            <motion.button
+              className={`type-filter-btn ${examType === "all" ? "active" : ""}`}
+              onClick={() => setExamType("all")}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <i className="bi bi-grid-3x3-gap-fill"></i>
+              <span>الكل</span>
+            </motion.button>
+            <motion.button
+              className={`type-filter-btn exam ${examType === "exam" ? "active" : ""}`}
+              onClick={() => setExamType("exam")}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <i className="bi bi-pencil-square"></i>
+              <span>اختبارات</span>
+            </motion.button>
+            <motion.button
+              className={`type-filter-btn homework ${examType === "homework" ? "active" : ""}`}
+              onClick={() => setExamType("homework")}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <i className="bi bi-journal-text"></i>
+              <span>فروض</span>
+            </motion.button>
           </div>
         </motion.div>
 
@@ -216,7 +268,7 @@ export default function LessonsPage() {
                     return (
                       <motion.button
                         key={subj}
-                        onClick={() => handleSubjectChange(subj)}
+                        onClick={() => setSelectedSubject(subj)}
                         className={`subject-item ${selectedSubject === subj ? "active" : ""}`}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -259,8 +311,7 @@ export default function LessonsPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            {/* ref attached here for mobile scroll target */}
-            <div className="files-section" ref={filesRef}>
+            <div className="files-section">
               {/* Header */}
               <div className="files-header">
                 <div className="header-info">
@@ -288,7 +339,7 @@ export default function LessonsPage() {
                     transition={{ delay: 0.2 }}
                   >
                     <i className="bi bi-file-earmark-text"></i>
-                    <span>{files.length} درس</span>
+                    <span>{files.length} ملف</span>
                   </motion.div>
 
                   {/* View Mode Toggle */}
@@ -338,7 +389,7 @@ export default function LessonsPage() {
                       <i className="bi bi-search"></i>
                     </motion.div>
                     <h5>لا توجد نتائج</h5>
-                    <p>لم نتمكن من العثور على دروس تطابق بحثك</p>
+                    <p>لم نتمكن من العثور على فروض أو اختبارات تطابق بحثك</p>
                     <motion.button
                       className="clear-search-btn"
                       onClick={() => setSearch("")}
@@ -357,56 +408,71 @@ export default function LessonsPage() {
                     animate="visible"
                     exit={{ opacity: 0 }}
                   >
-                    {files.map((file, i) => (
-                      <motion.div
-                        className="file-card"
-                        key={i}
-                        variants={staggerItem}
-                        whileHover={{
-                          y: -5,
-                          boxShadow: "0 15px 30px rgba(0,0,0,0.1)",
-                        }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <div className="file-card-content">
-                          <div className="file-icon-wrapper">
-                            <motion.div
-                              className="file-icon"
-                              whileHover={{ rotate: 5, scale: 1.1 }}
-                              transition={{ type: "spring", stiffness: 300 }}
-                            >
-                              <i className="bi bi-file-pdf-fill"></i>
-                            </motion.div>
-                          </div>
-
-                          <div className="file-info">
-                            <h6 className="file-name">{file.name}</h6>
-                            <div className="file-meta">
-                              <span className="file-type">
-                                <i className="bi bi-filetype-pdf"></i>
-                                PDF
-                              </span>
-                              <span className="file-size">
-                                <i className="bi bi-hdd-stack"></i>
-                                {file.size}
-                              </span>
+                    {files.map((file, i) => {
+                      const badge = getExamTypeBadge(file.type);
+                      return (
+                        <motion.div
+                          className="file-card"
+                          key={i}
+                          variants={staggerItem}
+                          whileHover={{
+                            y: -5,
+                            boxShadow: "0 15px 30px rgba(0,0,0,0.1)",
+                          }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <div className="file-card-content">
+                            <div className="file-icon-wrapper">
+                              <motion.div
+                                className={`file-icon ${file.type}`}
+                                whileHover={{ rotate: 5, scale: 1.1 }}
+                                transition={{ type: "spring", stiffness: 300 }}
+                              >
+                                <i className={`bi ${badge.icon}`}></i>
+                              </motion.div>
                             </div>
-                          </div>
 
-                          <motion.a
-                            href={file.file}
-                            className="download-btn"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                          >
-                            <i className="bi bi-download"></i>
-                            <span>تحميل</span>
-                          </motion.a>
-                        </div>
-                      </motion.div>
-                    ))}
+                            <div className="file-info">
+                              <div className="file-header">
+                                <h6 className="file-name">{file.name}</h6>
+                                <div className={`exam-badge ${badge.class}`}>
+                                  <i className={`bi ${badge.icon}`}></i>
+                                  <span>{badge.text}</span>
+                                </div>
+                              </div>
+                              <div className="file-meta">
+                                <span className="file-type">
+                                  <i className="bi bi-filetype-pdf"></i>
+                                  PDF
+                                </span>
+                                <span className="file-size">
+                                  <i className="bi bi-hdd-stack"></i>
+                                  {file.size}
+                                </span>
+                                {file.date && (
+                                  <span className="file-date">
+                                    <i className="bi bi-calendar"></i>
+                                    {file.date}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+
+                            <motion.a
+                              href={file.file}
+                              className="download-btn"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              <i className="bi bi-download"></i>
+                              <span>تحميل</span>
+                            </motion.a>
+                          </div>
+                        </motion.div>
+                      );
+                    })}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -452,6 +518,43 @@ export default function LessonsPage() {
           height: 3px;
           background: white;
           border-radius: 3px 3px 0 0;
+        }
+
+        /* Exam Type Filter */
+        .exam-type-filter {
+          padding: 0 15px;
+        }
+
+        .type-filter-btn {
+          padding: 10px 25px;
+          border: 2px solid #e2e8f0;
+          background: white;
+          border-radius: 50px;
+          font-weight: 600;
+          color: #718096;
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .type-filter-btn i {
+          font-size: 1.1rem;
+        }
+
+        .type-filter-btn.active {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          border-color: transparent;
+          color: white;
+          box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .type-filter-btn.exam.active {
+          background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .type-filter-btn.homework.active {
+          background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         }
 
         /* Subjects Sidebar */
@@ -659,7 +762,7 @@ export default function LessonsPage() {
 
         .files-container.grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
           gap: 20px;
         }
 
@@ -694,13 +797,21 @@ export default function LessonsPage() {
         .file-icon {
           width: 50px;
           height: 50px;
-          background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
           border-radius: 14px;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #dc2626;
           font-size: 1.8rem;
+        }
+
+        .file-icon.exam {
+          background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+          color: #dc2626;
+        }
+
+        .file-icon.homework {
+          background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+          color: #059669;
         }
 
         .grid .file-icon {
@@ -714,16 +825,46 @@ export default function LessonsPage() {
           flex: 1;
         }
 
+        .file-header {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 8px;
+          flex-wrap: wrap;
+        }
+
         .file-name {
-          margin: 0 0 8px;
+          margin: 0;
           font-weight: 600;
           color: #1a202c;
           line-height: 1.4;
+          flex: 1;
+        }
+
+        .exam-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          padding: 4px 10px;
+          border-radius: 20px;
+          font-size: 0.75rem;
+          font-weight: 600;
+        }
+
+        .exam-badge.exam-badge {
+          background: #fee2e2;
+          color: #dc2626;
+        }
+
+        .exam-badge.homework-badge {
+          background: #d1fae5;
+          color: #059669;
         }
 
         .file-meta {
           display: flex;
           gap: 15px;
+          flex-wrap: wrap;
         }
 
         .grid .file-meta {
@@ -731,7 +872,8 @@ export default function LessonsPage() {
         }
 
         .file-type,
-        .file-size {
+        .file-size,
+        .file-date {
           display: flex;
           align-items: center;
           gap: 5px;
@@ -831,15 +973,21 @@ export default function LessonsPage() {
         .bg-secondary-subtle {
           background: #e2e8f0;
         }
-
-        /* Responsive */
-        @media (max-width: 992px) {
-          /* Scroll offset so the header of files-section is not hidden under sticky navbars */
-          .files-section {
-            scroll-margin-top: 20px;
-          }
+        .bg-purple-subtle {
+          background: #ede9fe;
+        }
+        .bg-teal-subtle {
+          background: #ccfbf1;
         }
 
+        .text-purple {
+          color: #8b5cf6;
+        }
+        .text-teal {
+          color: #14b8a6;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
           .files-header {
             flex-direction: column;

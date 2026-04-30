@@ -1,20 +1,44 @@
 // pages/TimetablePage.js
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import PageHeader from "../components/PageHeader";
 import { TIMETABLE_DATA, HOURS, DAYS, SUBJECT_COLORS, SUBJECT_ICONS } from "../Data/constants";
+
 
 export default function TimetablePage() {
   const classes = Object.keys(TIMETABLE_DATA);
   const [selected, setSelected] = useState(classes[0]);
+  const [currentDay, setCurrentDay] = useState(null);
+  const [viewMode, setViewMode] = useState("week"); // 'week' or 'day'
   const grid = TIMETABLE_DATA[selected];
+
+  // Get current day of week
+  useEffect(() => {
+    const days = ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس"];
+    const today = new Date().getDay();
+    if (today >= 0 && today <= 4) {
+      setCurrentDay(days[today]);
+    }
+  }, []);
 
   const getSubjectIcon = (subject) => {
     return SUBJECT_ICONS[subject] || "bi-book-fill";
   };
 
-  const getBadgeClass = (subject) => {
-    return SUBJECT_COLORS[subject] || "secondary";
+ // const getBadgeClass = (subject) => {
+    //return SUBJECT_COLORS[subject] || "secondary";
+  //};
+
+  const getSubjectColorStyle = (subject) => {
+    const colorMap = {
+      "primary": "#4f46e5",
+      "success": "#10b981",
+      "danger": "#ef4444",
+      "warning": "#f59e0b",
+      "info": "#06b6d4",
+      "secondary": "#6b7280",
+    };
+    return colorMap[SUBJECT_COLORS[subject]] || "#6b7280";
   };
 
   // Animation variants
@@ -23,297 +47,1015 @@ export default function TimetablePage() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2
+        staggerChildren: 0.08,
+        delayChildren: 0.1
       }
     }
   };
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
+  const fadeUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
       y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 12
-      }
+      transition: { type: "spring", stiffness: 100, damping: 15 }
     }
   };
 
-  const cardVariants = {
-    hidden: { scale: 0.8, opacity: 0 },
-    visible: {
-      scale: 1,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 15
-      }
-    },
-    hover: {
-      scale: 1.05,
-      boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 10
-      }
-    }
-  };
-
-  const tableRowVariants = {
-    hidden: { x: -50, opacity: 0 },
-    visible: (index) => ({
+  const slideIn = {
+    hidden: { opacity: 0, x: -20 },
+    visible: { 
+      opacity: 1, 
       x: 0,
-      opacity: 1,
-      transition: {
-        delay: index * 0.1,
-        type: "spring",
-        stiffness: 100,
-        damping: 15
-      }
-    }),
-    hover: {
-      scale: 1.02,
-      backgroundColor: "rgba(13, 110, 253, 0.05)",
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 10
-      }
+      transition: { type: "spring", stiffness: 100, damping: 15 }
     }
   };
 
-  const badgeVariants = {
-    hidden: { scale: 0, rotate: -180 },
-    visible: {
-      scale: 1,
-      rotate: 0,
-      transition: {
-        type: "spring",
-        stiffness: 200,
-        damping: 15
-      }
-    },
-    hover: {
-      scale: 1.1,
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 10
+  // Get subjects for a specific day
+  const getDaySchedule = (day) => {
+    return grid[day] || [];
+  };
+
+  // Get current lesson
+  const getCurrentLesson = () => {
+    if (!currentDay) return null;
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+    const timeValue = currentHour + currentMinute / 60;
+    
+    const schedule = getDaySchedule(currentDay);
+    for (let i = 0; i < schedule.length; i++) {
+      const startHour = i < 4 ? 8 + i : 13 + (i - 4);
+      if (timeValue >= startHour && timeValue < startHour + 1) {
+        return {
+          subject: schedule[i],
+          time: HOURS[i],
+          index: i
+        };
       }
     }
+    return null;
   };
+
+  const currentLesson = getCurrentLesson();
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+    >
       <PageHeader
-        icon="bi-clock-fill"
+        icon="bi-calendar-week"
         title="استعمال الزمن"
-        sub="جداول دراسية لجميع الأقسام — السنة الدراسية 2024/2025"
+        sub="جداول دراسية منظمة لجميع الأقسام — السنة الدراسية 2025/2026"
       />
 
-      <div className="container py-5">
-        {/* Class selector */}
-        <motion.div
-          className="d-flex gap-2 flex-wrap justify-content-center mb-4"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          data-aos="fade-up"
-        >
-          {classes.map((cls, index) => (
-            <motion.button
-              key={cls}
-              onClick={() => setSelected(cls)}
-              className={`btn d-flex align-items-center gap-2 ${
-                selected === cls ? "btn-primary" : "btn-outline-secondary"
-              }`}
-              variants={itemVariants}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              data-aos="fade-right"
-              data-aos-delay={index * 50}
-            >
-              <i className="bi bi-people-fill"></i>
-              <span>{cls}</span>
-            </motion.button>
-          ))}
-        </motion.div>
-
-        {/* Info Cards for Morning and Afternoon Sessions */}
+      <div className="container py-4">
+        {/* Top Bar with Current Time and View Toggle */}
         <motion.div 
-          className="row g-3 mb-4" 
-          variants={containerVariants}
+          className="top-bar mb-4"
+          variants={fadeUp}
           initial="hidden"
           animate="visible"
         >
-          <div className="col-md-6">
-            <motion.div 
-              className="card border-0 bg-primary bg-opacity-10 h-100"
-              variants={cardVariants}
-              initial="hidden"
-              animate="visible"
-              whileHover="hover"
-            >
-              <div className="card-body text-center">
-                <motion.i 
-                  className="bi bi-sun-fill text-warning fs-3 mb-2"
-                  animate={{ 
-                    rotate: [0, 10, -10, 0],
-                    scale: [1, 1.1, 1]
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    repeatDelay: 3
-                  }}
-                ></motion.i>
-                <h6 className="fw-bold mb-1">الفترة الصباحية</h6>
-                <p className="small text-secondary mb-0">
-                  8:00 - 12:00 (4 حصص)
-                </p>
-              </div>
-            </motion.div>
-          </div>
-          <div className="col-md-6">
-            <motion.div 
-              className="card border-0 bg-info bg-opacity-10 h-100"
-              variants={cardVariants}
-              initial="hidden"
-              animate="visible"
-              whileHover="hover"
-            >
-              <div className="card-body text-center">
-                <motion.i 
-                  className="bi bi-moon-stars-fill text-info fs-3 mb-2"
-                  animate={{ 
-                    rotate: [0, -10, 10, 0],
-                    scale: [1, 0.9, 1]
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    repeatDelay: 4
-                  }}
-                ></motion.i>
-                <h6 className="fw-bold mb-1">الفترة المسائية</h6>
-                <p className="small text-secondary mb-0">
-                  13:00 - 17:00 (4 حصص)
-                </p>
-              </div>
-            </motion.div>
-          </div>
-        </motion.div>
-
-        <motion.div 
-          className="card border-0 shadow-lg" 
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.3 }}
-        >
-          <div className="card-body p-4">
-            <motion.h4 
-              className="fw-bold mb-4 d-flex align-items-center gap-2"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.5 }}
-            >
-              <motion.i 
-                className="bi bi-building text-primary"
-                animate={{ 
-                  scale: [1, 1.2, 1],
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  repeatDelay: 2
-                }}
-              ></motion.i>
-              <span>القسم: {selected}</span>
-            </motion.h4>
-
-            <div className="table-responsive">
-              <table className="table table-bordered text-center align-middle">
-                <thead className="bg-dark">
-                  <tr>
-                    <th className="p-3 text-white" style={{ minWidth: "120px" }}>
-                      اليوم \ الساعة
-                    </th>
-                    {HOURS.map((h, idx) => (
-                      <th
-                        key={h}
-                        className="p-3 text-white"
-                        style={{
-                          backgroundColor: idx < 4 ? "#1e3a5f" : "#0f172a",
-                          minWidth: "100px",
-                        }}
-                      >
-                        <motion.div
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ delay: idx * 0.1 }}
-                        >
-                          <i className="bi bi-clock me-1 small"></i>
-                          <span className="text-white">{h}</span>
-                        </motion.div>
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {DAYS.map((day, rowIndex) => (
-                    <motion.tr
-                      key={day}
-                      custom={rowIndex}
-                      variants={tableRowVariants}
-                      initial="hidden"
-                      animate="visible"
-                      whileHover="hover"
-                    >
-                      <td className="bg-light fw-bold p-3">{day}</td>
-                      {(grid[day] || []).map((subj, i) => {
-                        const iconClass = getSubjectIcon(subj);
-                        const badgeClass = getBadgeClass(subj);
-                        return (
-                          <td key={i} className="p-2">
-                            {subj !== "—" ? (
-                              <motion.span
-                                className={`badge bg-${badgeClass} py-2 px-3 fs-6 d-inline-flex align-items-center gap-1`}
-                                variants={badgeVariants}
-                                initial="hidden"
-                                animate="visible"
-                                whileHover="hover"
-                                custom={i}
-                              >
-                                <i className={`bi ${iconClass}`}></i>
-                                <span>{subj}</span>
-                              </motion.span>
-                            ) : (
-                              <motion.span 
-                                className="text-secondary"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: i * 0.05 }}
-                              >
-                                —
-                              </motion.span>
-                            )}
-                          </td>
-                        );
-                      })}
-                    </motion.tr>
-                  ))}
-                </tbody>
-              </table>
+          <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
+            {/* Current Day & Time */}
+            <div className="current-time-info">
+              {currentDay && (
+                <motion.div 
+                  className="today-badge"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 200 }}
+                >
+                  <i className="bi bi-calendar-check"></i>
+                  <span>اليوم: {currentDay}</span>
+                </motion.div>
+              )}
             </div>
 
+            {/* View Mode Toggle */}
+            <div className="view-toggle-wrapper">
+              <div className="view-toggle">
+                <motion.button
+                  className={`view-option ${viewMode === "week" ? "active" : ""}`}
+                  onClick={() => setViewMode("week")}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <i className="bi bi-calendar-week"></i>
+                  <span>أسبوعي</span>
+                </motion.button>
+                <motion.button
+                  className={`view-option ${viewMode === "day" ? "active" : ""}`}
+                  onClick={() => setViewMode("day")}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <i className="bi bi-calendar-day"></i>
+                  <span>يومي</span>
+                </motion.button>
+              </div>
+            </div>
           </div>
         </motion.div>
+
+        {/* Current Lesson Card */}
+        {currentLesson && currentLesson.subject !== "—" && (
+          <motion.div 
+            className="current-lesson-card mb-4"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <div className="current-lesson-content">
+              <div className="lesson-indicator">
+                <div className="pulse-dot"></div>
+                <span>الحصة الحالية</span>
+              </div>
+              <div className="lesson-details">
+                <div 
+                  className="lesson-subject-badge"
+                  style={{ 
+                    background: `linear-gradient(135deg, ${getSubjectColorStyle(currentLesson.subject)} 0%, ${getSubjectColorStyle(currentLesson.subject)}dd 100%)` 
+                  }}
+                >
+                  <i className={`bi ${getSubjectIcon(currentLesson.subject)}`}></i>
+                  <span>{currentLesson.subject}</span>
+                </div>
+                <div className="lesson-time">
+                  <i className="bi bi-clock"></i>
+                  <span>{currentLesson.time}</span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Class Selector - Enhanced */}
+        <motion.div 
+          className="class-selector-wrapper mb-4"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <div className="class-selector">
+            {classes.map((cls, index) => (
+              <motion.button
+                key={cls}
+                onClick={() => setSelected(cls)}
+                className={`class-btn ${selected === cls ? "active" : ""}`}
+                variants={fadeUp}
+                whileHover={{ y: -3 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <i className="bi bi-people"></i>
+                <span>{cls}</span>
+                {selected === cls && (
+                  <motion.div 
+                    className="active-bg"
+                    layoutId="activeClass"
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  />
+                )}
+              </motion.button>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Session Info Cards */}
+        <motion.div 
+          className="sessions-wrapper mb-4"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <div className="row g-3">
+            <div className="col-md-6">
+              <motion.div 
+                className="session-card morning"
+                variants={fadeUp}
+                whileHover={{ y: -5 }}
+              >
+                <div className="session-icon">
+                  <motion.i 
+                    className="bi bi-brightness-high"
+                    animate={{ rotate: [0, 10, -10, 0] }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                  />
+                </div>
+                <div className="session-info">
+                  <h6>الفترة الصباحية</h6>
+                  <p>8:00 - 12:00</p>
+                  <span className="session-lessons">4 حصص</span>
+                </div>
+                <div className="session-progress">
+                  <div className="progress-bar" style={{ width: "100%" }}></div>
+                </div>
+              </motion.div>
+            </div>
+            <div className="col-md-6">
+              <motion.div 
+                className="session-card evening"
+                variants={fadeUp}
+                whileHover={{ y: -5 }}
+              >
+                <div className="session-icon">
+                  <motion.i 
+                    className="bi bi-moon-stars"
+                    animate={{ rotate: [0, -10, 10, 0] }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                  />
+                </div>
+                <div className="session-info">
+                  <h6>الفترة المسائية</h6>
+                  <p>13:00 - 17:00</p>
+                  <span className="session-lessons">4 حصص</span>
+                </div>
+                <div className="session-progress">
+                  <div className="progress-bar" style={{ width: "100%" }}></div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Timetable Content */}
+        <motion.div 
+          className="timetable-wrapper"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, type: "spring", stiffness: 100, damping: 20 }}
+        >
+          <div className="timetable-header">
+            <div className="header-left">
+              <i className="bi bi-building"></i>
+              <h4>{selected}</h4>
+            </div>
+            <div className="header-right">
+              <span className="break-info">
+                <i className="bi bi-cup-hot"></i>
+                استراحة: 12:00 - 13:00
+              </span>
+            </div>
+          </div>
+
+          <AnimatePresence mode="wait">
+            {viewMode === "week" ? (
+              <motion.div
+                key="week"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="week-view"
+              >
+                <div className="table-responsive">
+                  <table className="timetable">
+                    <thead>
+                      <tr>
+                        <th className="day-header">اليوم / الساعة</th>
+                        {HOURS.map((hour, idx) => (
+                          <th 
+                            key={hour} 
+                            className={`time-header ${idx < 4 ? "morning" : "evening"}`}
+                          >
+                            <i className="bi bi-clock"></i>
+                            {hour}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {DAYS.map((day, rowIndex) => {
+                        const isCurrentDay = day === currentDay;
+                        return (
+                          <motion.tr 
+                            key={day}
+                            className={`${isCurrentDay ? "current-day" : ""}`}
+                            variants={slideIn}
+                            initial="hidden"
+                            animate="visible"
+                            transition={{ delay: rowIndex * 0.1 }}
+                            whileHover={{ backgroundColor: "rgba(79, 70, 229, 0.02)" }}
+                          >
+                            <td className={`day-cell ${isCurrentDay ? "active" : ""}`}>
+                              <div className="day-content">
+                                <span className="day-name">{day}</span>
+                                {isCurrentDay && (
+                                  <span className="today-tag">اليوم</span>
+                                )}
+                              </div>
+                            </td>
+                            {(grid[day] || []).map((subject, idx) => {
+                              const isBreak = subject === "—";
+                              const iconClass = getSubjectIcon(subject);
+                              const colorStyle = getSubjectColorStyle(subject);
+                              
+                              return (
+                                <td key={idx} className="subject-cell">
+                                  {!isBreak ? (
+                                    <motion.div
+                                      className="subject-badge"
+                                      style={{ 
+                                        background: `linear-gradient(135deg, ${colorStyle}15 0%, ${colorStyle}08 100%)`,
+                                        borderColor: `${colorStyle}30`
+                                      }}
+                                      whileHover={{ 
+                                        scale: 1.05,
+                                        boxShadow: `0 4px 12px ${colorStyle}20`
+                                      }}
+                                      transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                                    >
+                                      <i 
+                                        className={`bi ${iconClass}`}
+                                        style={{ color: colorStyle }}
+                                      ></i>
+                                      <span style={{ color: "#1f2937" }}>{subject}</span>
+                                    </motion.div>
+                                  ) : (
+                                    <span className="break-cell">—</span>
+                                  )}
+                                </td>
+                              );
+                            })}
+                          </motion.tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="day"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="day-view"
+              >
+                <div className="day-selector">
+                  {DAYS.map((day) => (
+                    <motion.button
+                      key={day}
+                      className={`day-btn ${currentDay === day ? "active" : ""}`}
+                      onClick={() => setCurrentDay(day)}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      {day}
+                    </motion.button>
+                  ))}
+                </div>
+
+                {currentDay && (
+                  <div className="day-schedule">
+                    {HOURS.map((hour, idx) => {
+                      const subject = grid[currentDay]?.[idx];
+                      const isBreak = subject === "—";
+                      const iconClass = getSubjectIcon(subject);
+                      const colorStyle = getSubjectColorStyle(subject);
+                      const isCurrentHour = currentLesson?.index === idx;
+                      
+                      return (
+                        <motion.div
+                          key={hour}
+                          className={`schedule-item ${isCurrentHour ? "current" : ""} ${idx < 4 ? "morning" : "evening"}`}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: idx * 0.05 }}
+                        >
+                          <div className="schedule-time">
+                            <i className="bi bi-clock"></i>
+                            <span>{hour}</span>
+                            {isCurrentHour && (
+                              <span className="current-indicator">
+                                <span className="pulse"></span>
+                                الآن
+                              </span>
+                            )}
+                          </div>
+                          <div className="schedule-content">
+                            {!isBreak ? (
+                              <motion.div
+                                className="schedule-subject"
+                                style={{ 
+                                  background: `linear-gradient(135deg, ${colorStyle}15 0%, ${colorStyle}08 100%)`,
+                                  borderLeft: `4px solid ${colorStyle}`
+                                }}
+                                whileHover={{ x: 5 }}
+                              >
+                                <i 
+                                  className={`bi ${iconClass}`}
+                                  style={{ color: colorStyle }}
+                                ></i>
+                                <span>{subject}</span>
+                              </motion.div>
+                            ) : (
+                              <div className="schedule-break">
+                                <i className="bi bi-dash-circle"></i>
+                                <span>استراحة / فراغ</span>
+                              </div>
+                            )}
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Legend */}
+          <motion.div 
+            className="legend-wrapper"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
+            <div className="legend-title">
+              <i className="bi bi-palette"></i>
+              <span>دليل المواد</span>
+            </div>
+            <div className="legend-items">
+              {Object.entries(SUBJECT_COLORS).map(([subject, colorClass]) => {
+                const iconClass = getSubjectIcon(subject);
+                const colorStyle = getSubjectColorStyle(subject);
+                return (
+                  <motion.div 
+                    key={subject}
+                    className="legend-item"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <div 
+                      className="legend-color"
+                      style={{ background: colorStyle }}
+                    ></div>
+                    <i className={`bi ${iconClass}`} style={{ color: colorStyle }}></i>
+                    <span>{subject}</span>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </motion.div>
+        </motion.div>
       </div>
-    </>
+
+      <style jsx>{`
+        /* Top Bar */
+        .top-bar {
+          background: white;
+          border-radius: 16px;
+          padding: 16px 24px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .today-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 8px 16px;
+          background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+          color: white;
+          border-radius: 30px;
+          font-weight: 500;
+          font-size: 0.9rem;
+        }
+
+        .view-toggle {
+          display: flex;
+          gap: 5px;
+          background: #f3f4f6;
+          padding: 4px;
+          border-radius: 40px;
+        }
+
+        .view-option {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 8px 20px;
+          border: none;
+          background: transparent;
+          border-radius: 30px;
+          color: #6b7280;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .view-option.active {
+          background: white;
+          color: #4f46e5;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        /* Current Lesson Card */
+        .current-lesson-card {
+          background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+          border-radius: 20px;
+          padding: 20px 24px;
+          color: white;
+        }
+
+        .current-lesson-content {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 20px;
+        }
+
+        .lesson-indicator {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .pulse-dot {
+          width: 12px;
+          height: 12px;
+          background: #10b981;
+          border-radius: 50%;
+          animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+          0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+          70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .lesson-details {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+        }
+
+        .lesson-subject-badge {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 10px 20px;
+          border-radius: 40px;
+          font-weight: 600;
+          color: white;
+        }
+
+        .lesson-time {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 8px 16px;
+          background: rgba(255,255,255,0.2);
+          border-radius: 30px;
+        }
+
+        /* Class Selector */
+        .class-selector {
+          display: flex;
+          gap: 12px;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .class-btn {
+          position: relative;
+          padding: 12px 28px;
+          border: none;
+          background: white;
+          border-radius: 40px;
+          font-weight: 600;
+          color: #6b7280;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+          cursor: pointer;
+          overflow: hidden;
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .class-btn.active {
+          color: white;
+        }
+
+        .active-bg {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+          border-radius: 40px;
+          z-index: -1;
+        }
+
+        /* Session Cards */
+        .session-card {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          padding: 20px;
+          background: white;
+          border-radius: 20px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+          transition: all 0.3s ease;
+          cursor: pointer;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .session-card.morning {
+          border-top: 4px solid #f59e0b;
+        }
+
+        .session-card.evening {
+          border-top: 4px solid #06b6d4;
+        }
+
+        .session-icon {
+          width: 50px;
+          height: 50px;
+          border-radius: 15px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.8rem;
+        }
+
+        .session-card.morning .session-icon {
+          background: #fef3c7;
+          color: #f59e0b;
+        }
+
+        .session-card.evening .session-icon {
+          background: #cffafe;
+          color: #06b6d4;
+        }
+
+        .session-info {
+          flex: 1;
+        }
+
+        .session-info h6 {
+          margin: 0 0 4px;
+          font-weight: 600;
+          color: #1f2937;
+        }
+
+        .session-info p {
+          margin: 0 0 4px;
+          color: #6b7280;
+          font-size: 0.9rem;
+        }
+
+        .session-lessons {
+          font-size: 0.8rem;
+          color: #9ca3af;
+        }
+
+        .session-progress {
+          width: 60px;
+          height: 4px;
+          background: #f3f4f6;
+          border-radius: 2px;
+          overflow: hidden;
+        }
+
+        .progress-bar {
+          height: 100%;
+          border-radius: 2px;
+        }
+
+        .session-card.morning .progress-bar {
+          background: #f59e0b;
+        }
+
+        .session-card.evening .progress-bar {
+          background: #06b6d4;
+        }
+
+        /* Timetable Wrapper */
+        .timetable-wrapper {
+          background: white;
+          border-radius: 24px;
+          padding: 24px;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+        }
+
+        .timetable-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 24px;
+          flex-wrap: wrap;
+          gap: 16px;
+        }
+
+        .header-left {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .header-left i {
+          font-size: 1.8rem;
+          color: #4f46e5;
+        }
+
+        .header-left h4 {
+          margin: 0;
+          font-weight: 700;
+          color: #1f2937;
+        }
+
+        .break-info {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 8px 16px;
+          background: #fef3c7;
+          border-radius: 30px;
+          color: #92400e;
+          font-size: 0.9rem;
+        }
+
+        /* Timetable */
+        .timetable {
+          width: 100%;
+          border-collapse: separate;
+          border-spacing: 0 8px;
+        }
+
+        .timetable thead th {
+          padding: 16px;
+          font-weight: 600;
+          text-align: center;
+          background: #f9fafb;
+          border: none;
+        }
+
+        .time-header {
+          color: #4b5563;
+        }
+
+        .time-header.morning {
+          background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+          color: #92400e;
+        }
+
+        .time-header.evening {
+          background: linear-gradient(135deg, #cffafe 0%, #a5f3fc 100%);
+          color: #0e7490;
+        }
+
+        .time-header i {
+          margin-left: 6px;
+        }
+
+        .day-cell {
+          padding: 16px;
+          font-weight: 600;
+          background: #f9fafb;
+          border-radius: 12px 0 0 12px;
+        }
+
+        .day-cell.active {
+          background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+        }
+
+        .day-content {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .today-tag {
+          padding: 2px 8px;
+          background: #4f46e5;
+          color: white;
+          border-radius: 20px;
+          font-size: 0.7rem;
+          font-weight: 500;
+        }
+
+        .subject-cell {
+          padding: 12px 8px;
+        }
+
+        .subject-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 10px 16px;
+          border-radius: 12px;
+          border: 1px solid;
+          font-weight: 500;
+          transition: all 0.3s ease;
+          cursor: default;
+        }
+
+        .break-cell {
+          color: #d1d5db;
+          font-weight: 300;
+        }
+
+        .current-day {
+          background: rgba(79, 70, 229, 0.02);
+        }
+
+        /* Day View */
+        .day-view {
+          padding: 20px 0;
+        }
+
+        .day-selector {
+          display: flex;
+          gap: 8px;
+          margin-bottom: 24px;
+          flex-wrap: wrap;
+        }
+
+        .day-btn {
+          padding: 10px 20px;
+          border: 1px solid #e5e7eb;
+          background: white;
+          border-radius: 30px;
+          font-weight: 500;
+          color: #6b7280;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .day-btn.active {
+          background: #4f46e5;
+          border-color: #4f46e5;
+          color: white;
+        }
+
+        .day-schedule {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .schedule-item {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          padding: 16px 20px;
+          background: #f9fafb;
+          border-radius: 16px;
+          transition: all 0.3s ease;
+        }
+
+        .schedule-item.current {
+          background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+          border: 1px solid #4f46e5;
+        }
+
+        .schedule-item.morning {
+          border-right: 4px solid #f59e0b;
+        }
+
+        .schedule-item.evening {
+          border-right: 4px solid #06b6d4;
+        }
+
+        .schedule-time {
+          min-width: 120px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-weight: 600;
+          color: #374151;
+        }
+
+        .current-indicator {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          margin-right: 10px;
+          padding: 4px 10px;
+          background: #10b981;
+          color: white;
+          border-radius: 20px;
+          font-size: 0.75rem;
+          font-weight: 500;
+        }
+
+        .pulse {
+          width: 6px;
+          height: 6px;
+          background: white;
+          border-radius: 50%;
+          animation: pulse 1.5s infinite;
+        }
+
+        .schedule-content {
+          flex: 1;
+        }
+
+        .schedule-subject {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 12px 20px;
+          border-radius: 12px;
+          font-weight: 500;
+          transition: all 0.3s ease;
+          cursor: default;
+        }
+
+        .schedule-break {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 12px 20px;
+          color: #9ca3af;
+        }
+
+        /* Legend */
+        .legend-wrapper {
+          margin-top: 30px;
+          padding-top: 24px;
+          border-top: 1px solid #f3f4f6;
+        }
+
+        .legend-title {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 16px;
+          font-weight: 600;
+          color: #374151;
+        }
+
+        .legend-items {
+          display: flex;
+          gap: 20px;
+          flex-wrap: wrap;
+        }
+
+        .legend-item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 6px 12px;
+          background: #f9fafb;
+          border-radius: 30px;
+          font-size: 0.85rem;
+          transition: all 0.3s ease;
+          cursor: default;
+        }
+
+        .legend-color {
+          width: 12px;
+          height: 12px;
+          border-radius: 4px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+          .timetable-wrapper {
+            padding: 16px;
+            overflow-x: auto;
+          }
+
+          .timetable {
+            min-width: 800px;
+          }
+
+          .current-lesson-content {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+
+          .lesson-details {
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+          }
+
+          .lesson-subject-badge {
+            width: 100%;
+            justify-content: center;
+          }
+
+          .schedule-item {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+
+          .schedule-time {
+            width: 100%;
+          }
+        }
+      `}</style>
+    </motion.div>
   );
 }

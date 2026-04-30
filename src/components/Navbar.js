@@ -1,10 +1,34 @@
 // components/Navbar.js
+import { Link, useLocation } from "react-router-dom";
+import { useEffect } from "react";           // ← زيد هذا
 import { NAV_LINKS, SCHOOL_NAME } from "../Data/constants";
 import { BI } from "../Utils/icons";
 
-export default function Navbar({ page, setPage }) {
+export default function Navbar() {
+  const location = useLocation();
+
+  // ← زيد هذا الـ useEffect
+  useEffect(() => {
+    // 1) إغلاق الـ collapse تاع Bootstrap
+    const navbarEl = document.getElementById("navbarNav");
+    if (navbarEl && navbarEl.classList.contains("show")) {
+      // نستخدم Bootstrap Collapse API مباشرة
+      const { Collapse } = window.bootstrap || {};
+      if (Collapse) {
+        const collapseInstance = Collapse.getOrCreateInstance(navbarEl);
+        collapseInstance.hide();
+      } else {
+        // fallback إذا ما كانتش Bootstrap global
+        navbarEl.classList.remove("show");
+      }
+    }
+
+    // 2) Scroll to top بشكل سلس
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [location]); // يتشغل في كل مرة تتغير الـ route
+
   return (
-    <nav 
+    <nav
       className="navbar navbar-expand-lg navbar-dark sticky-top"
       style={{
         background: "linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)",
@@ -15,14 +39,12 @@ export default function Navbar({ page, setPage }) {
       }}
     >
       <div className="container py-2">
-        <button
-          className="navbar-brand d-flex align-items-center gap-3 border-0 bg-transparent"
-          onClick={() => setPage("home")}
-          style={{
-            transition: "transform 0.3s ease",
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.02)"}
-          onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+        <Link
+          to="/"
+          className="navbar-brand d-flex align-items-center gap-3"
+          style={{ transition: "transform 0.3s ease", textDecoration: "none" }}
+          onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.02)")}
+          onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
         >
           <div
             style={{
@@ -42,10 +64,10 @@ export default function Navbar({ page, setPage }) {
             />
           </div>
           <div>
-            <div 
-              className="fw-bold" 
-              style={{ 
-                fontSize: "1.2rem", 
+            <div
+              className="fw-bold"
+              style={{
+                fontSize: "1.2rem",
                 letterSpacing: "0.5px",
                 background: "linear-gradient(135deg, #ffffff 0%, #93c5fd 100%)",
                 WebkitBackgroundClip: "text",
@@ -56,11 +78,11 @@ export default function Navbar({ page, setPage }) {
               {SCHOOL_NAME}
             </div>
             <div style={{ fontSize: "0.7rem", color: "#93c5fd", marginTop: "2px" }}>
-             مديرية التربية لولاية تلمسان
+              مديرية التربية لولاية تلمسان
             </div>
           </div>
-        </button>
-        
+        </Link>
+
         <button
           className="navbar-toggler border-0"
           type="button"
@@ -75,76 +97,72 @@ export default function Navbar({ page, setPage }) {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        
+
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto gap-2">
-            {NAV_LINKS.map((link) => (
-              <li className="nav-item" key={link.id}>
-                <button
-                  className={`nav-link btn btn-link text-white d-flex align-items-center gap-2 ${page === link.id ? "active fw-bold" : ""}`}
-                  onClick={() => setPage(link.id)}
-                  style={{
-                    background: page === link.id
-                      ? "linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%)"
-                      : "transparent",
-                    borderRadius: "12px",
-                    padding: "10px 20px",
-                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                    fontSize: "0.95rem",
-                    fontWeight: page === link.id ? "700" : "500",
-                    letterSpacing: "0.3px",
-                    position: "relative",
-                    overflow: "hidden",
-                  }}
-                  onMouseEnter={(e) => {
-                    if (page !== link.id) {
-                      e.currentTarget.style.background = "rgba(59,130,246,0.2)";
-                      e.currentTarget.style.transform = "translateY(-2px)";
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (page !== link.id) {
-                      e.currentTarget.style.background = "transparent";
-                      e.currentTarget.style.transform = "translateY(0)";
-                    }
-                  }}
-                >
-                  <BI 
-                    icon={link.icon} 
-                    marginEnd="me-0" 
-                    style={{ 
-                      fontSize: "1.1rem",
-                      transition: "transform 0.3s ease",
+            {NAV_LINKS.map((link) => {
+              // نحوّل id ديال الـ link لـ path
+              const path = link.id === "home" ? "/" : `/${link.id}`;
+              const isActive = location.pathname === path;
+
+              return (
+                <li className="nav-item" key={link.id}>
+                  <Link
+                    to={path}
+                    className={`nav-link text-white d-flex align-items-center gap-2 ${isActive ? "active fw-bold" : ""}`}
+                    style={{
+                      background: isActive
+                        ? "linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%)"
+                        : "transparent",
+                      borderRadius: "12px",
+                      padding: "10px 20px",
+                      transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                      fontSize: "0.95rem",
+                      fontWeight: isActive ? "700" : "500",
+                      letterSpacing: "0.3px",
+                      position: "relative",
+                      overflow: "hidden",
+                      textDecoration: "none",
                     }}
                     onMouseEnter={(e) => {
-                      if (page !== link.id) {
-                        e.currentTarget.style.transform = "scale(1.1)";
+                      if (!isActive) {
+                        e.currentTarget.style.background = "rgba(59,130,246,0.2)";
+                        e.currentTarget.style.transform = "translateY(-2px)";
                       }
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = "scale(1)";
+                      if (!isActive) {
+                        e.currentTarget.style.background = "transparent";
+                        e.currentTarget.style.transform = "translateY(0)";
+                      }
                     }}
-                  />
-                  <span>{link.label}</span>
-                  
-                  {/* Active page indicator */}
-                  {page === link.id && (
-                    <div
-                      style={{
-                        position: "absolute",
-                        bottom: "0",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        width: "30px",
-                        height: "3px",
-                        background: "linear-gradient(90deg, #60a5fa, #ffffff)",
-                        borderRadius: "3px",
-                      }}
+                  >
+                    <BI
+                      icon={link.icon}
+                      marginEnd="me-0"
+                      style={{ fontSize: "1.1rem", transition: "transform 0.3s ease" }}
                     />
-                  )}
-                </button>
-              </li>
-            ))}
+                    <span>{link.label}</span>
+
+                    {/* Active indicator */}
+                    {isActive && (
+                      <div
+                        style={{
+                          position: "absolute",
+                          bottom: "0",
+                          left: "50%",
+                          transform: "translateX(-50%)",
+                          width: "30px",
+                          height: "3px",
+                          background: "linear-gradient(90deg, #60a5fa, #ffffff)",
+                          borderRadius: "3px",
+                        }}
+                      />
+                    )}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>
