@@ -37,7 +37,7 @@ export default function ActivitiesPage() {
               />
               <h2 className="h3 fw-bold mb-3">⚠️ الصفحة قيد التطوير</h2>
               <p className="text-secondary mb-0">
-                نحن نعمل على تحسين هذه الصفحة، سيتم إضافة المحتوى قريباً إن شاء الله
+                نحن نعمل على تحسين هذه الصفحة ، سيتم إضافة المحتوى قريباً إن شاء الله
               </p>
             </div>
           </div>
