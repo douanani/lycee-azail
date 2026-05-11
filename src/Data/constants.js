@@ -34,7 +34,7 @@ export const EXAMS = {
         name: "فرض الفصل الثالث في مادة المعلوماتية أولى علوم",
         file: "https://drive.google.com/file/d/1xQaGlvMGWfNc_C1lI2OelUT8MI0KsESp/view?usp=drive_link",
         size: "262 KB",
-        type: "homework",
+        type: "exam",
         date: "2024-11-15"
       },
       
@@ -71,7 +71,15 @@ export const EXAMS = {
     رياضيات: [],
     فيزياء: [],
     "علوم طبيعية": [],
-    "علوم إسلامية": [],
+    "علوم إسلامية": [
+      {
+        name: "فرض تصحيح نموذجي مقترح للبكالوريا التجريبي الاحتياطي",
+        file: "https://drive.google.com/file/d/12VKqGeTmQG7eUKvIfMDvZlMc2vLNX1f2/view?usp=sharing",
+        size: "1.6 Mb",
+        type: "homework",
+        date: "2024-11-15"
+      }
+    ],
     "تاريخ وجغرافيا": [],
     "اللغة الفرنسية": [],
     "اللغة الإنجليزية": [],
