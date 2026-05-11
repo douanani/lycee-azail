@@ -22,8 +22,8 @@ export const STATS = [
 export const EXAMS = {
   "السنة أولى جذع مشترك علوم وتكنولوجيا": {
     "لغة عربية": [],
-   "رياضيات" : [],
-   "فيزياء" : [],
+    رياضيات: [],
+    فيزياء: [],
     "علوم طبيعية": [],
     "علوم إسلامية": [],
     "تاريخ وجغرافيا": [],
@@ -35,9 +35,8 @@ export const EXAMS = {
         file: "https://drive.google.com/file/d/1xQaGlvMGWfNc_C1lI2OelUT8MI0KsESp/view?usp=drive_link",
         size: "262 KB",
         type: "exam",
-        date: "2024-11-15"
+        date: "2024-11-15",
       },
-      
     ],
     تكنولوجيا: [],
     "التربية الفنية": [],
@@ -71,15 +70,7 @@ export const EXAMS = {
     رياضيات: [],
     فيزياء: [],
     "علوم طبيعية": [],
-    "علوم إسلامية": [
-      {
-        name: "فرض تصحيح نموذجي مقترح للبكالوريا التجريبي الاحتياطي",
-        file: "https://drive.google.com/file/d/12VKqGeTmQG7eUKvIfMDvZlMc2vLNX1f2/view?usp=sharing",
-        size: "1.6 Mb",
-        type: "homework",
-        date: "2024-11-15"
-      }
-    ],
+    "علوم إسلامية": [],
     "تاريخ وجغرافيا": [],
     "اللغة الفرنسية": [],
     "اللغة الإنجليزية": [],
@@ -90,7 +81,15 @@ export const EXAMS = {
     رياضيات: [],
     فيزياء: [],
     "علوم طبيعية": [],
-    "علوم إسلامية": [],
+    "علوم إسلامية": [
+      {
+        name: "فرض تصحيح نموذجي مقترح للبكالوريا التجريبي الاحتياطي",
+        file: "https://drive.google.com/file/d/12VKqGeTmQG7eUKvIfMDvZlMc2vLNX1f2/view?usp=sharing",
+        size: "1.6 Mb",
+        type: "homework",
+        date: "2024-11-15",
+      },
+    ],
     "تاريخ وجغرافيا": [],
     "اللغة الفرنسية": [],
     "اللغة الإنجليزية": [],
@@ -99,13 +98,20 @@ export const EXAMS = {
     "لغة عربية": [],
     فلسفة: [],
     رياضيات: [],
-    "علوم إسلامية": [],
+    "علوم إسلامية": [
+      {
+        name: "فرض تصحيح نموذجي مقترح للبكالوريا التجريبي الاحتياطي",
+        file: "https://drive.google.com/file/d/12VKqGeTmQG7eUKvIfMDvZlMc2vLNX1f2/view?usp=sharing",
+        size: "1.6 Mb",
+        type: "homework",
+        date: "2024-11-15",
+      },
+    ],
     "تاريخ وجغرافيا": [],
     "اللغة الفرنسية": [],
     "اللغة الإنجليزية": [],
   },
 };
-
 
 export const LESSONS = {
   "السنة أولى جذع مشترك علوم وتكنولوجيا": {
@@ -138,7 +144,7 @@ export const LESSONS = {
         file: "https://drive.google.com/file/d/1dA9MdZhqBfnBDuQK2_OX46O8yADtJCNM/view?usp=drive_linkiew?usp=drive_link",
         size: "154 KB",
       },
-       {
+      {
         name: "درس الفقرات، العناوين وتنسيقات النص",
         file: "https://drive.google.com/file/d/1tf6IgEJiDBQHQyl7eNN15F_vaaI29zVI/view?usp=sharing",
         size: "90 KB",
@@ -152,7 +158,7 @@ export const LESSONS = {
         name: "تمارين حول لغة HTML",
         file: "https://drive.google.com/file/d/1GZR3h56yYpkAC6cOw2et53_M38at6D0r/view?usp=drive_link",
         size: "105 KB",
-      }
+      },
     ],
     تكنولوجيا: [],
     "التربية الفنية": [],
@@ -229,11 +235,11 @@ export const LESSONS = {
         file: "https://drive.google.com/file/d/1AsykS724bUXyN0r9tAjg7sMrpgPZktnZ/view?usp=drive_link",
         size: "8.8 MB",
       },
-    {
-      name: " مصطلحات الفصل الثالث تاريخ و جغرافيا ",
-      file: "https://drive.google.com/file/d/1pD-mZEvQsVxEJ8ylX0tt8InBftT6T2I4/view?usp=drive_link",
-      size: "6.1 MB",
-    }
+      {
+        name: " مصطلحات الفصل الثالث تاريخ و جغرافيا ",
+        file: "https://drive.google.com/file/d/1pD-mZEvQsVxEJ8ylX0tt8InBftT6T2I4/view?usp=drive_link",
+        size: "6.1 MB",
+      },
     ],
     "اللغة الفرنسية": [],
     "اللغة الإنجليزية": [],
@@ -274,11 +280,11 @@ export const LESSONS = {
         file: "https://drive.google.com/file/d/1AsykS724bUXyN0r9tAjg7sMrpgPZktnZ/view?usp=drive_link",
         size: "8.8 MB",
       },
-    {
-      name: " مصطلحات الفصل الثالث تاريخ و جغرافيا ",
-      file: "https://drive.google.com/file/d/1pD-mZEvQsVxEJ8ylX0tt8InBftT6T2I4/view?usp=drive_link",
-      size: "6.1 MB",
-    }
+      {
+        name: " مصطلحات الفصل الثالث تاريخ و جغرافيا ",
+        file: "https://drive.google.com/file/d/1pD-mZEvQsVxEJ8ylX0tt8InBftT6T2I4/view?usp=drive_link",
+        size: "6.1 MB",
+      },
     ],
     "اللغة الفرنسية": [],
     "اللغة الإنجليزية": [],
