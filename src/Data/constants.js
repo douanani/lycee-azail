@@ -104,10 +104,25 @@ export const EXAMS = {
         file: "https://drive.google.com/file/d/12VKqGeTmQG7eUKvIfMDvZlMc2vLNX1f2/view?usp=sharing",
         size: "1.6 Mb",
         type: "exam",
-        date: "2024-11-15",
+        date: "2026-05-15",
       },
     ],
-    "تاريخ وجغرافيا": [],
+    "تاريخ وجغرافيا": [
+      {
+        name: "تصحيح بكالوريا تجريبي اداب وفلسفة الموضوع الأول",
+        file: "https://drive.google.com/file/d/1_C1hR-G3PSfM54Hcc2MtR3YVh7SZpo1O/view?usp=drive_link",
+        size: "739 Mb",
+        type: "exam",
+        date: "2026-05-21",
+      },
+      {
+        name: "تصحيح بكالوريا تجريبي اداب وفلسفة الموضوع الثاني",
+        file: "https://drive.google.com/file/d/1jX6B7WEAgsTx07s1xg1tdTpWbYLqjx8r/view?usp=drive_link",  
+        size: "738 Mb",
+        type: "exam",
+        date: "2026-05-21",
+      },
+    ],
     "اللغة الفرنسية": [],
     "اللغة الإنجليزية": [],
   },
@@ -193,7 +208,43 @@ export const LESSONS = {
     فيزياء: [],
     "علوم طبيعية": [],
     "علوم إسلامية": [],
-    "تاريخ وجغرافيا": [],
+    "تاريخ وجغرافيا": [
+      {
+        name: " شخصيات على شكل مخطط ",
+        file: "https://drive.google.com/file/d/1Qj9pD2tE8r_Zib2-ithaLa1yUcseFgaC/view?usp=drive_link",
+        size: "9.7 MB",
+      },
+      {
+        name: " شخصيات و مصطلحات التاريخ الفصل الأول",
+        file: "https://drive.google.com/file/d/1JoaAP_Tp0vgYUqP1i7Bohz_lVovwtTOz/view?usp=drive_link",
+        size: "33.33 MB",
+      },
+      {
+        name: " مصطلحات الجغرافيا الفصل الأول بكالوريا",
+        file: "https://drive.google.com/file/d/1MKWAKKeKMSSVM9jTrrVc0-VLL57oREtY/view?usp=drive_link",
+        size: "4.3 MB",
+      },
+      {
+        name: " خرائط رقم 1",
+        file: "https://drive.google.com/file/d/1ImKfZBNhimvMwdKTEgKfKKP19mVWU0pG/view?usp=sharing",
+        size: "108 MB",
+      },
+      {
+        name: "أسئلة استنتاجية تاريخ",
+        file: "https://drive.google.com/file/d/1H5wjFHIjGYEZj2TaG2DsiqkUub0REmN_/view?usp=drive_link",
+        size: "5.3 MB",
+      },
+      {
+        name: "مصطلحات الفصول الثلاثة المهمة",
+        file: "https://drive.google.com/file/d/1AsykS724bUXyN0r9tAjg7sMrpgPZktnZ/view?usp=drive_link",
+        size: "8.8 MB",
+      },
+      {
+        name: " مصطلحات الفصل الثالث تاريخ و جغرافيا ",
+        file: "https://drive.google.com/file/d/1pD-mZEvQsVxEJ8ylX0tt8InBftT6T2I4/view?usp=drive_link",
+        size: "6.1 MB",
+      },
+    ],
     "اللغة الفرنسية": [],
     "اللغة الإنجليزية": [],
     "التربية الفنية": [],
@@ -236,10 +287,15 @@ export const LESSONS = {
         size: "8.8 MB",
       },
       {
-        name: " مصطلحات الفصل الثالث تاريخ و جغرافيا ",
-        file: "https://drive.google.com/file/d/1pD-mZEvQsVxEJ8ylX0tt8InBftT6T2I4/view?usp=drive_link",
-        size: "6.1 MB",
+        name: "التعاليق ",
+        file: "https://drive.google.com/file/d/1rwmr-eSanzMgr6NGDS_qfE4KACZYHSP7/view?usp=sharing",
+        size: "1.5 MB",
       },
+    {
+        name: "مقدمات و خاتمات", 
+        file: "https://drive.google.com/file/d/1PbWWqgKDBDorh525uecKaGZD21FGSoCeR/view?usp=drive_link",
+        size: "1.1 MB",
+    }
     ],
     "اللغة الفرنسية": [],
     "اللغة الإنجليزية": [],
@@ -285,6 +341,16 @@ export const LESSONS = {
         file: "https://drive.google.com/file/d/1pD-mZEvQsVxEJ8ylX0tt8InBftT6T2I4/view?usp=drive_link",
         size: "6.1 MB",
       },
+      {
+        name: "التعاليق ",
+        file: "https://drive.google.com/file/d/1rwmr-eSanzMgr6NGDS_qfE4KACZYHSP7/view?usp=sharing",
+        size: "1.5 MB",
+      },
+    {
+        name: "مقدمات و خاتمات", 
+        file: "https://drive.google.com/file/d/1PDx4Vtw4YF6XfduRwwS6nKZ6sPAC9nCeR/view?usp=drive_link",
+        size: "1.1 MB",
+    }
     ],
     "اللغة الفرنسية": [],
     "اللغة الإنجليزية": [],
