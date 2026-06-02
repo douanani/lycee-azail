@@ -348,7 +348,7 @@ export const LESSONS = {
       },
     {
         name: "مقدمات و خاتمات", 
-        file: "https://drive.google.com/file/d/1PDx4Vtw4YF6XfduRwwS6nKZ6sPAC9nCeR/view?usp=drive_link",
+        file: "https://drive.google.com/file/d/1nXcPcuct4G3vRlvXkg2TQ34Ij3BiPW7m/view?usp=drive_link",
         size: "1.1 MB",
     }
     ],
