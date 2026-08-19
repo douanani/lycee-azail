@@ -13,6 +13,10 @@ import ActivitiesPage from "./Pages/ActivitiesPage";
 import TimetablePage from "./Pages/TimetablePage";
 import ContactPage from "./Pages/ContactPage";
 import ExamsPage from "./Pages/ExamsPage";
+import AuthPage from "./Pages/Authpage";
+import AdminDashboard from "./Pages/Admin Dashboard/AdminDashboard";
+import TeacherDashboard from "./Pages/TeacherDashboard";
+
 
 // Import global styles
 import "./Styles/global.css";
@@ -64,6 +68,9 @@ function AnimatedRoutes() {
           <Route path="/timetable" element={<TimetablePage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/exams" element={<ExamsPage />} />
+          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/teacher" element={<TeacherDashboard />} />
           {/* Fallback */}
           <Route path="*" element={<HomePage />} />
         </Routes>
